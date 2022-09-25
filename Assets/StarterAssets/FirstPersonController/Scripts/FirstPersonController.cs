@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro.EditorUtilities;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
 #endif
@@ -51,6 +52,10 @@ namespace StarterAssets
 		[Tooltip("How far in degrees can you move the camera down")]
 		public float BottomClamp = -90.0f;
 
+		[SerializeField] private Animator _animator;
+		private int _VelociutyHash;
+		private int _CroucHash;
+
 		// cinemachine
 		private float _cinemachineTargetPitch;
 
@@ -93,6 +98,9 @@ namespace StarterAssets
 			{
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
+
+			_VelociutyHash = Animator.StringToHash("Velocity");
+            _CroucHash = Animator.StringToHash("IsCrouching");
 		}
 
 		private void Start()
@@ -154,7 +162,10 @@ namespace StarterAssets
 
 		private void Crouch()
         {
-			_controller.height = _input.crouch ? 1f : 2f;
+			_controller.height = _input.crouch ? 1f : 1.65f;
+			_controller.center = _input.crouch ? new Vector3(0, 0.51f, 0) : new Vector3(0, 0.815f, 0);
+			_animator.SetBool(_CroucHash, _input.crouch);
+
         }
 
 		private void Move()
@@ -204,6 +215,7 @@ namespace StarterAssets
 
 			// move the player
 			_controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+			_animator.SetFloat(_VelociutyHash, _controller.velocity.magnitude);
 		}
 
 		private void JumpAndGravity()

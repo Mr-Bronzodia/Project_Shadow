@@ -13,6 +13,7 @@ namespace StarterAssets
 		public bool jump;
 		public bool sprint;
 		public bool crouch;
+		public bool attack;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -53,6 +54,11 @@ namespace StarterAssets
 			JumpInput(value.isPressed);
 		}
 
+		public void OnAttack(InputValue value)
+		{
+			AttackInput(value.isPressed);
+		}
+
 
 		public void OnSprint(InputValue value)
 		{
@@ -79,6 +85,11 @@ namespace StarterAssets
 		public void SprintInput(bool newSprintState)
 		{
 			sprint = newSprintState;
+		}
+
+		public void AttackInput(bool newAttackState)
+		{
+			attack = newAttackState;
 		}
 
 		public void CrouchInput(bool newCrouchState)
