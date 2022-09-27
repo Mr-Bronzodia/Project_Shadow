@@ -940,7 +940,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 520cf8bcf48fc904e9323a32a6f39040,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.10797597
+      value: -2.798
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 520cf8bcf48fc904e9323a32a6f39040,
         type: 3}
@@ -1255,6 +1255,11 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 2709100443805260283, guid: 73052a8a497ecb547b74b58957f304ab,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1d8de1da1f0120e43996bd069deae71c, type: 2}
     - target: {fileID: 4691671238886005480, guid: 73052a8a497ecb547b74b58957f304ab,
         type: 3}
       propertyPath: m_Name
@@ -1325,6 +1330,11 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 01292bac0ee926044b928fd19cd8e9de, type: 2}
+    - target: {fileID: 8214798572351133478, guid: 73052a8a497ecb547b74b58957f304ab,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8214798572351133478, guid: 73052a8a497ecb547b74b58957f304ab,
         type: 3}
       propertyPath: m_ApplyRootMotion

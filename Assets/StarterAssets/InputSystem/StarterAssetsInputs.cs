@@ -56,8 +56,16 @@ namespace StarterAssets
 
 		public void OnAttack(InputValue value)
 		{
-			AttackInput(value.isPressed);
-		}
+            switch (attack)
+            {
+                case true:
+                    AttackInput(false);
+                    break;
+                case false:
+                    AttackInput(true);
+                    break;
+            }
+        }
 
 
 		public void OnSprint(InputValue value)

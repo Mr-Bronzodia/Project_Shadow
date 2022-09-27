@@ -55,6 +55,7 @@ namespace StarterAssets
 		[SerializeField] private Animator _animator;
 		private int _VelociutyHash;
 		private int _CroucHash;
+		private int _AttackHash;
 
 		// cinemachine
 		private float _cinemachineTargetPitch;
@@ -101,6 +102,7 @@ namespace StarterAssets
 
 			_VelociutyHash = Animator.StringToHash("Velocity");
             _CroucHash = Animator.StringToHash("IsCrouching");
+            _AttackHash = Animator.StringToHash("IsAttacking");
 		}
 
 		private void Start()
@@ -122,6 +124,7 @@ namespace StarterAssets
 		{
 			JumpAndGravity();
 			GroundedCheck();
+			Attack();
 			Crouch();
 			Move();
 		}
@@ -167,6 +170,11 @@ namespace StarterAssets
 			_animator.SetBool(_CroucHash, _input.crouch);
 
         }
+
+		private void Attack()
+		{
+			_animator.SetBool(_AttackHash, _input.attack);
+		}
 
 		private void Move()
 		{
