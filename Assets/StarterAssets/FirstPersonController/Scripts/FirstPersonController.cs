@@ -123,11 +123,11 @@ namespace StarterAssets
 		private void Update()
 		{
 			JumpAndGravity();
-			GroundedCheck();
-			Attack();
+            GroundedCheck();
+            Attack();
 			Crouch();
 			Move();
-		}
+        }
 
 		private void LateUpdate()
 		{
@@ -221,9 +221,9 @@ namespace StarterAssets
 				inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
 			}
 
-			// move the player
-			_controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-			_animator.SetFloat(_VelociutyHash, _controller.velocity.magnitude);
+            // move the player
+            _animator.SetFloat(_VelociutyHash, _controller.velocity.magnitude);
+            _controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 		}
 
 		private void JumpAndGravity()

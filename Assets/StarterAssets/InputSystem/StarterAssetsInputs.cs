@@ -56,6 +56,7 @@ namespace StarterAssets
 
 		public void OnAttack(InputValue value)
 		{
+            Debug.Log("attacked");
             switch (attack)
             {
                 case true:
