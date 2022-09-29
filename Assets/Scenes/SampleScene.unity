@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: f0c5d2f37e850f7438cdaa34851ad926, type: 2}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -714,7 +714,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!64 &1432884901
 MeshCollider:
@@ -1100,6 +1100,48 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1 &1707478683 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 520cf8bcf48fc904e9323a32a6f39040,
+    type: 3}
+  m_PrefabInstance: {fileID: 1656268508}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &1707478686
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707478683}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.32
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1.76
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &1707478687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707478683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a969d4b7230ba984cb1a1357eb65c79a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _navAgent: {fileID: 1707478686}
+  _guardPosts: []
 --- !u!1 &1849822398
 GameObject:
   m_ObjectHideFlags: 0
@@ -1407,7 +1449,7 @@ PrefabInstance:
     - target: {fileID: 8761445841800677496, guid: 73052a8a497ecb547b74b58957f304ab,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -8.126
+      value: -8.779
       objectReference: {fileID: 0}
     - target: {fileID: 8761445841800677496, guid: 73052a8a497ecb547b74b58957f304ab,
         type: 3}

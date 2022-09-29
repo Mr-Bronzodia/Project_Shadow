@@ -56,6 +56,8 @@ namespace StarterAssets
 		private int _VelociutyHash;
 		private int _CroucHash;
 		private int _AttackHash;
+		private int _IsFallingHash;
+		private int _JumpHash;
 
 		// cinemachine
 		private float _cinemachineTargetPitch;
@@ -103,6 +105,9 @@ namespace StarterAssets
 			_VelociutyHash = Animator.StringToHash("Velocity");
             _CroucHash = Animator.StringToHash("IsCrouching");
             _AttackHash = Animator.StringToHash("IsAttacking");
+			_IsFallingHash = Animator.StringToHash("IsFalling");
+			_JumpHash = Animator.StringToHash("JumpTrigger");
+
 		}
 
 		private void Start()
@@ -228,7 +233,9 @@ namespace StarterAssets
 
 		private void JumpAndGravity()
 		{
-			if (Grounded)
+            _animator.SetBool(_IsFallingHash, !Grounded);
+
+            if (Grounded)
 			{
 				// reset the fall timeout timer
 				_fallTimeoutDelta = FallTimeout;
@@ -242,6 +249,7 @@ namespace StarterAssets
 				// Jump
 				if (_input.jump && _jumpTimeoutDelta <= 0.0f)
 				{
+					_animator.SetTrigger(_JumpHash);
 					// the square root of H * -2 * G = how much velocity needed to reach desired height
 					_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 				}
@@ -256,6 +264,7 @@ namespace StarterAssets
 			{
 				// reset the jump timeout timer
 				_jumpTimeoutDelta = JumpTimeout;
+
 
 				// fall timeout
 				if (_fallTimeoutDelta >= 0.0f)
