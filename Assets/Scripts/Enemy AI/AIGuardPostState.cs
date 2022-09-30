@@ -4,21 +4,30 @@ using UnityEngine;
 
 public class AIGuardPostState : AIState
 {
+    private GuardShedue _currentShedue;
+    private float _currentGuardTime;
+
     public AIGuardPostState(AIAgent agent, AIStateFactory factory) : base(agent, factory) { }
 
     public override void CheckSwichState()
     {
-        throw new System.NotImplementedException();
+        if (_currentGuardTime > _currentShedue.WaitTime[_currentShedue.CurrentStop])
+        {
+            SwitchState(_factory.MoveToPost());
+        }
     }
 
     public override void EnterState()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Entered Guard State");
+
+        _currentShedue = _ctx.GuardShedue;
+        _currentGuardTime = 0;
     }
 
     public override void ExitState()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void InitializeSubState()
@@ -28,6 +37,7 @@ public class AIGuardPostState : AIState
 
     public override void UpdateState()
     {
-        throw new System.NotImplementedException();
+        CheckSwichState();
+        _currentGuardTime += Time.deltaTime;
     }
 }
