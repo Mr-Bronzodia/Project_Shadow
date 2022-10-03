@@ -22,6 +22,9 @@ namespace StarterAssets
 		[Tooltip("Acceleration and deceleration")]
 		public float SpeedChangeRate = 10.0f;
 
+		public float SneakMultiplier { get { return _sneakMultiplier; } }
+		
+
 		[Space(10)]
 		[Tooltip("The height the player can jump")]
 		public float JumpHeight = 1.2f;
@@ -58,9 +61,10 @@ namespace StarterAssets
 		private int _AttackHash;
 		private int _IsFallingHash;
 		private int _JumpHash;
+        private float _sneakMultiplier;
 
-		// cinemachine
-		private float _cinemachineTargetPitch;
+        // cinemachine
+        private float _cinemachineTargetPitch;
 
 		// player
 		private float _speed;
@@ -172,7 +176,8 @@ namespace StarterAssets
         {
 			_controller.height = _input.crouch ? 1f : 1.65f;
 			_controller.center = _input.crouch ? new Vector3(0, 0.51f, 0) : new Vector3(0, 0.815f, 0);
-			_animator.SetBool(_CroucHash, _input.crouch);
+			_sneakMultiplier = _input.crouch ? 0.15f : 0f;
+            _animator.SetBool(_CroucHash, _input.crouch);
 
         }
 
