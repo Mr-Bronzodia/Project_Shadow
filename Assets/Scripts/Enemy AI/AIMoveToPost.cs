@@ -18,9 +18,7 @@ public class AIMoveToPost : AIState
 
     public override void EnterState()
     {
-        Debug.Log("Entered Move State");
-
-        _currentShedue = _ctx.GuardShedue;
+        _currentShedue = _ctx.GuardShedue ;
 
         _ctx.NavMeshAgent.destination = _currentShedue.Targets[_currentShedue.CurrentStop].position;
     }

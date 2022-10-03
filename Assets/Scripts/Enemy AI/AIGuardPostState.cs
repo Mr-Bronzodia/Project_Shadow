@@ -19,8 +19,6 @@ public class AIGuardPostState : AIState
 
     public override void EnterState()
     {
-        Debug.Log("Entered Guard State");
-
         _currentShedue = _ctx.GuardShedue;
         _currentGuardTime = 0;
     }
