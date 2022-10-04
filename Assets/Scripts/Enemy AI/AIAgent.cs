@@ -59,6 +59,7 @@ public class AIAgent : MonoBehaviour
     public NavMeshAgent NavMeshAgent { get { return _navAgent; } }
     public AlertState AlertState { get { return _currentAlertLevel; } }
     public GuardShedue GuardShedue { get { return _guardShedue; } }
+    public Transform SuspeciousLocation { get { return _suspeciousLocation; } }
 
 
 

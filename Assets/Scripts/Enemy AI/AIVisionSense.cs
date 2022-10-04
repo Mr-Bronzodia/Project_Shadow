@@ -83,9 +83,9 @@ public class AIVisionSense : AISense
             _awareOfTargets[target] += Mathf.Max((_alertnessAtPoint.Evaluate(seenAtAngle) * (1 - (distance / _viewRadius))) - sneakMultiplier, 0);
         }
 
-        if (_awareOfTargets[target] > 2)
+        if (_awareOfTargets[target] > 1.5)
         {
-            Debug.Log("Alerted");
+            _agent.AddSuspeciousLocaton(target.transform);
         }
     }
 

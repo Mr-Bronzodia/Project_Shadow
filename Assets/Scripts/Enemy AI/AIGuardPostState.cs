@@ -11,6 +11,11 @@ public class AIGuardPostState : AIState
 
     public override void CheckSwichState()
     {
+        if (_ctx.SuspeciousLocation != null) 
+        {
+            SwitchState(_factory.Investigate());
+        }
+
         if (_currentGuardTime > _currentShedue.WaitTime[_currentShedue.CurrentStop])
         {
             SwitchState(_factory.MoveToPost());

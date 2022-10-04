@@ -16,6 +16,12 @@ public class AIStateFactory
         _states["DeadState"] = new AIDeadState(agent, this);
         _states["ChaseState"] = new AIChaseState(agent, this);
         _states["AttackState"] = new AIAttackState(agent, this);
+        _states["InvestigateState"] = new AIInvestigateArea(agent, this);
+    }
+
+    public AIState Investigate()
+    {
+        return _states["InvestigateState"];
     }
 
     public AIState MoveToPost()

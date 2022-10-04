@@ -10,6 +10,12 @@ public class AIMoveToPost : AIState
 
     public override void CheckSwichState()
     {
+        if (_ctx.SuspeciousLocation != null)
+        {
+            SwitchState(_factory.Investigate());
+        }
+
+
         if (_ctx.NavMeshAgent.remainingDistance < _ctx.NavMeshAgent.stoppingDistance + 1)
         {
             SwitchState(_factory.GuardPost());
