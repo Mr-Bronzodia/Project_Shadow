@@ -18,6 +18,12 @@ public class AIInvestigateArea : AIState
 
     public override void CheckSwichState()
     {
+        if (_ctx.IsAwareOfTarget == true)
+        {
+            SwitchState(_factory.Chase());
+        }
+
+
         if(_ctx.SuspeciousLocation == null) 
         {
             SwitchState(_factory.MoveToPost());
@@ -71,7 +77,6 @@ public class AIInvestigateArea : AIState
 
         if (_ctx.NavMeshAgent.remainingDistance < _ctx.NavMeshAgent.stoppingDistance + 1)
         {
-            Debug.Log(_investigationsCount);
             _timeInvestigatingPoint += Time.deltaTime;
 
             if (!(_investigationsCount == _investigationsPoint.Length))

@@ -4,7 +4,6 @@ using System.IO.Compression;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
-using TMPro;
 using UnityEngine;
 using StarterAssets;
 
@@ -83,10 +82,6 @@ public class AIVisionSense : AISense
             _awareOfTargets[target] += Mathf.Max((_alertnessAtPoint.Evaluate(seenAtAngle) * (1 - (distance / _viewRadius))) - sneakMultiplier, 0);
         }
 
-        if (_awareOfTargets[target] > 1.5)
-        {
-            _agent.AddSuspeciousLocaton(target.transform);
-        }
     }
 
     private void ClearAwarnes()
@@ -96,22 +91,45 @@ public class AIVisionSense : AISense
             if (!_seenThisFrame.Contains(target))
             {
                 _awareOfTargets[target] -= 0.08f;
-
-                if (_awareOfTargets[target] < 0)
-                {
-                    _awareOfTargets.Remove(target);
-                }
             }
+
+            if (_awareOfTargets[target] > 1.5)
+            {
+                _agent.AddSuspeciousLocaton(target.transform);
+            }
+
+            if (_awareOfTargets[target] > 2.5 & _seenThisFrame.Contains(target))
+            {
+                _agent.IsAwareOfTarget = true;
+                _agent.UpdateLastSeen(target.transform);
+            }
+            else
+            {
+                _agent.IsAwareOfTarget = false;
+            }
+
+            if (_awareOfTargets[target] < 0)
+            {
+                _awareOfTargets.Remove(target);
+            }
+
         }
+
+        
     }
 
 
     private void Update()
     {
         DebugView.text = "";
+
+        DebugView.text += "Current AI State: " + _agent.GetCurrentState() + "\n";
+        DebugView.text += "Is AI seeing Target: " + _agent.IsAwareOfTarget + "\n";
         foreach (GameObject target in _awareOfTargets.Keys.ToList())
         {
-            DebugView.text += target + ": " + _awareOfTargets[target];
+            DebugView.color = new Color(0.5f, 1f, 0f, 1f);
+            DebugView.text += target + ": " + _awareOfTargets[target] + " From Vision";
+            
         }
     }
 

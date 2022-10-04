@@ -52,7 +52,7 @@ public class AIAgent : MonoBehaviour
     private AIStateFactory _AIStateFactory;
     [SerializeField] private AlertState _currentAlertLevel;
     private Transform _suspeciousLocation = null;
-    private GameObject _awareTarget = null;
+    private Transform _lastSeenTarget = null;
     public Action StartSenses;
 
     public AIState CurrentAIState { get { return _currentAIState; } set { _currentAIState = value; } }
@@ -60,6 +60,9 @@ public class AIAgent : MonoBehaviour
     public AlertState AlertState { get { return _currentAlertLevel; } }
     public GuardShedue GuardShedue { get { return _guardShedue; } }
     public Transform SuspeciousLocation { get { return _suspeciousLocation; } }
+    public Transform LastSeenTargetLocation { get { return _lastSeenTarget; } }
+
+    public bool IsAwareOfTarget = false;
 
 
 
@@ -81,19 +84,19 @@ public class AIAgent : MonoBehaviour
         }
     }
 
+    public AIState GetCurrentState()
+    {
+        return _currentAIState;
+    }
+
     public void AddSuspeciousLocaton(Transform loaction)
     {
         _suspeciousLocation = loaction;
     }
 
-    public void AddAwareTarget(GameObject target) 
+    public void UpdateLastSeen(Transform target) 
     {
-        _awareTarget = target;
-    }
-
-    public void RemoveAwareTarget() 
-    {
-        _awareTarget = null;
+        _lastSeenTarget = target;
     }
 
     private void Awake()

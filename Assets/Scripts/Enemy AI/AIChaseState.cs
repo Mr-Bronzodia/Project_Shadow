@@ -8,26 +8,30 @@ public class AIChaseState : AIState
 
     public override void CheckSwichState()
     {
-        throw new System.NotImplementedException();
+        if (!_ctx.IsAwareOfTarget)
+        {
+            SwitchState(_factory.Investigate());
+        }
     }
 
     public override void EnterState()
     {
-        throw new System.NotImplementedException();
+
     }
 
     public override void ExitState()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void InitializeSubState()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void UpdateState()
     {
-        throw new System.NotImplementedException();
+        CheckSwichState();
+        _ctx.NavMeshAgent.destination = _ctx.LastSeenTargetLocation.position;
     }
 }
