@@ -18,6 +18,15 @@ public class AIVisionSense : AISense
 
     [SerializeField] private AnimationCurve _alertnessAtPoint;
 
+    private void Start()
+    {
+        _agent.IsAwareOfTarget["Vision"] = false;
+    }
+
+    private void OnDisable()
+    {
+        _agent.IsAwareOfTarget.Remove("Vision");
+    }
 
     public Vector3 DirFromAngle(float angleInDegrees, bool isGlobal)
     {
@@ -36,12 +45,12 @@ public class AIVisionSense : AISense
     {
         _seenThisFrame.Clear();
         //Get all possible targest in view range
-        Collider[] targetsInVewRange = Physics.OverlapSphere(transform.position, _viewRadius, TargetMask);
+        Collider[] targetsInViewRange = Physics.OverlapSphere(transform.position, _viewRadius, TargetMask);
 
-        for (int i = 0; i < targetsInVewRange.Length; i++) 
+        for (int i = 0; i < targetsInViewRange.Length; i++) 
         {
-            Transform target = targetsInVewRange[i].transform;
-            Vector3 dirToTarget = (targetsInVewRange[i].bounds.center - new Vector3(0, 1.2f, 0) - transform.position).normalized;
+            Transform target = targetsInViewRange[i].transform;
+            Vector3 dirToTarget = (targetsInViewRange[i].bounds.center - new Vector3(0, 1.2f, 0) - transform.position).normalized;
 
             //Check if target is in view frostom
             float angleToTarget = Vector3.Angle(transform.forward, dirToTarget);
@@ -61,6 +70,7 @@ public class AIVisionSense : AISense
             if (_agent.AwareForTargets.Keys.ToList().Contains(target.gameObject) && !_seenThisFrame.Contains(target.gameObject))
             {
                 _agent.UpdateAwarness(target.gameObject, -0.08f, false);
+                _agent.IsAwareOfTarget["vision"] = false;
             }
 
         }
@@ -73,15 +83,22 @@ public class AIVisionSense : AISense
         if(target.tag == "Player")
         {
             sneakMultiplier = target.GetComponentInChildren<FirstPersonController>().SneakMultiplier;
+
+            float awarnessIncrease = Mathf.Max((_alertnessAtPoint.Evaluate(seenAtAngle) * (1 - (distance / _viewRadius))) - sneakMultiplier, 0);
+
+            _agent.UpdateAwarness(target, awarnessIncrease, true);
+            _agent.IsAwareOfTarget["vision"] = true;
+        }
+        else if (target.tag == "NPC")
+        {
+            Debug.Log("Seeing friend :]");
         }
         else
         {
             Debug.Log("Target didnt have FPS Controller");
         }
 
-        float awarnessIncrease = Mathf.Max((_alertnessAtPoint.Evaluate(seenAtAngle) * (1 - (distance / _viewRadius))) - sneakMultiplier, 0);
-
-        _agent.UpdateAwarness(target, awarnessIncrease, true);
+        
     }
 
     protected override IEnumerator BeginSense()

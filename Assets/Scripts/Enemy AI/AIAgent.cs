@@ -57,6 +57,7 @@ public class AIAgent : MonoBehaviour
     private Transform _suspeciousLocation = null;
     private Transform _lastSeenTarget = null;
     private Dictionary<GameObject, float> _awareForTargets = new Dictionary<GameObject, float>();
+    private List<bool> _shouldBeSensed = new List<bool>();
 
 
     public Action StartSenses;
@@ -67,7 +68,7 @@ public class AIAgent : MonoBehaviour
     public Transform SuspeciousLocation { get { return _suspeciousLocation; } }
     public Transform LastSeenTargetLocation { get { return _lastSeenTarget; } }
 
-    public bool IsAwareOfTarget = false;
+    public Dictionary<string, bool> IsAwareOfTarget;
 
     public Dictionary<GameObject, float> AwareForTargets { get { return _awareForTargets; } }
 
@@ -132,20 +133,22 @@ public class AIAgent : MonoBehaviour
             AddSuspeciousLocaton(target.transform);
         }
 
-        if (_awareForTargets[target] > 2.5 & sensedThisFrame)
+        if (_awareForTargets[target] > 2.5 & IsAware())
         {
-            IsAwareOfTarget = true;
             UpdateLastSeen(target.transform);
         }
-        else
-        {
-            IsAwareOfTarget = false;
-        }
+
+    }
+
+    public bool IsAware()
+    {
+        return IsAwareOfTarget.Values.ToList().Contains(true);
     }
 
     private void Awake()
     {
         GuardShedue.InitStops();
+        IsAwareOfTarget = new Dictionary<string, bool>();
         _AIStateFactory = new AIStateFactory(this);
         _currentAIState = _AIStateFactory.MoveToPost();
         _currentAIState.EnterState();
@@ -154,6 +157,7 @@ public class AIAgent : MonoBehaviour
     private void Start()
     {
         StartSenses?.Invoke();
+        DebugView.color = new Color(0.5f, 1f, 0f, 1f);
     }
 
 
@@ -163,13 +167,13 @@ public class AIAgent : MonoBehaviour
 
         DebugView.text = "";
 
-        DebugView.text += "Current AI State: " + _currentAIState + "\n";
-        DebugView.text += "Is AI seeing Target: " + IsAwareOfTarget + "\n";
+        DebugView.text += gameObject.name + " state: " + _currentAIState + "\n";
+        DebugView.text += gameObject.name + " sensing Target: " + IsAware() + "\n";
         foreach (GameObject target in _awareForTargets.Keys.ToList())
         {
-            DebugView.color = new Color(0.5f, 1f, 0f, 1f);
-            DebugView.text += target + ": " + _awareForTargets[target];
+            DebugView.text += target + ": " + _awareForTargets[target] + "\n";
 
         }
     }
+
 }

@@ -6,10 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(AIAgent))]
 public abstract class AISense : MonoBehaviour
 {
+    public bool Enable = true;
     public LayerMask TargetMask;
     public LayerMask ObsticleLayer;
-    private List<GameObject> SensedTargets = new List<GameObject>();
-    private List<GameObject> SensedThisFrame = new List<GameObject>();
 
     protected AIAgent _agent;
     [SerializeField] protected float _senseInterval;
@@ -17,13 +16,19 @@ public abstract class AISense : MonoBehaviour
 
     private void Awake()
     {
-        _agent = GetComponent<AIAgent>();
-        _agent.StartSenses += RegisterSense;
+        if (Enable)
+        {
+            _agent = GetComponent<AIAgent>();
+            _agent.StartSenses += RegisterSense;
+        } 
     }
 
     private void OnDisable()
     {
-        _agent.StartSenses -= RegisterSense;
+        if (Enable)
+        {
+            _agent.StartSenses -= RegisterSense;
+        }
     }
 
     protected abstract IEnumerator BeginSense();

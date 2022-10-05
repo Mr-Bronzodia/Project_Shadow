@@ -8,7 +8,7 @@ public class AIChaseState : AIState
 
     public override void CheckSwichState()
     {
-        if (!_ctx.IsAwareOfTarget)
+        if (_ctx.IsAware() == false)
         {
             SwitchState(_factory.Investigate());
         }
@@ -21,7 +21,7 @@ public class AIChaseState : AIState
 
     public override void ExitState()
     {
-        
+        _ctx.UpdateLastSeen(null);
     }
 
     public override void InitializeSubState()
@@ -31,7 +31,7 @@ public class AIChaseState : AIState
 
     public override void UpdateState()
     {
-        CheckSwichState();
         _ctx.NavMeshAgent.destination = _ctx.LastSeenTargetLocation.position;
+        CheckSwichState();
     }
 }
