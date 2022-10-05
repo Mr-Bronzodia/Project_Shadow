@@ -1527,7 +1527,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 520cf8bcf48fc904e9323a32a6f39040,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.7010758
+      value: -2.7015839
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 520cf8bcf48fc904e9323a32a6f39040,
         type: 3}
@@ -1537,12 +1537,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 520cf8bcf48fc904e9323a32a6f39040,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.41364
+      value: -4.413392
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 520cf8bcf48fc904e9323a32a6f39040,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.7105346
+      value: -0.3298374
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 520cf8bcf48fc904e9323a32a6f39040,
         type: 3}
@@ -1552,7 +1552,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 520cf8bcf48fc904e9323a32a6f39040,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.70366234
+      value: -0.94403774
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 520cf8bcf48fc904e9323a32a6f39040,
         type: 3}
@@ -1567,7 +1567,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 520cf8bcf48fc904e9323a32a6f39040,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 449.443
+      value: 501.482
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 520cf8bcf48fc904e9323a32a6f39040,
         type: 3}
@@ -2142,6 +2142,7 @@ MonoBehaviour:
     CurrentStop: 0
   _currentAlertLevel: 0
   IsAwareOfTarget: 0
+  DebugView: {fileID: 515614748}
 --- !u!114 &1707478689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2197,7 +2198,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  DebugView: {fileID: 515614748}
 --- !u!1 &1849822398
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,10 +13,10 @@ public class AIVisionSense : AISense
     [Range(0, 360)]
     public float _viewAngle;
     private List<GameObject> _seenThisFrame = new List<GameObject>();
-    private Dictionary<GameObject, float> _awareOfTargets = new Dictionary<GameObject, float>();
     public Vector3 EyeOffset;
+
+
     [SerializeField] private AnimationCurve _alertnessAtPoint;
-    public TMP_Text DebugView;
 
 
     public Vector3 DirFromAngle(float angleInDegrees, bool isGlobal)
@@ -54,16 +54,19 @@ public class AIVisionSense : AISense
                 if (!Physics.Raycast(transform.position + EyeOffset, dirToTarget, dstToTarget, ObsticleLayer))
                 {
                     _seenThisFrame.Add(target.gameObject);
-                    BuildAwarness(target.gameObject, angleToTarget, dstToTarget);
+                    BuildAwarnessOnSeen(target.gameObject, angleToTarget, dstToTarget);
                 }
-
             }
 
-            ClearAwarnes();
+            if (_agent.AwareForTargets.Keys.ToList().Contains(target.gameObject) && !_seenThisFrame.Contains(target.gameObject))
+            {
+                _agent.UpdateAwarness(target.gameObject, -0.08f, false);
+            }
+
         }
     }
 
-    private void BuildAwarness(GameObject target, float seenAtAngle, float distance)
+    private void BuildAwarnessOnSeen(GameObject target, float seenAtAngle, float distance)
     {
         float sneakMultiplier = 0;
         
@@ -71,66 +74,14 @@ public class AIVisionSense : AISense
         {
             sneakMultiplier = target.GetComponentInChildren<FirstPersonController>().SneakMultiplier;
         }
-
-
-        if (!_awareOfTargets.ContainsKey(target)) 
-        {
-            _awareOfTargets[target] =  Mathf.Max((_alertnessAtPoint.Evaluate(seenAtAngle) * (1 - (distance / _viewRadius))) - sneakMultiplier, 0);
-        }
         else
         {
-            _awareOfTargets[target] += Mathf.Max((_alertnessAtPoint.Evaluate(seenAtAngle) * (1 - (distance / _viewRadius))) - sneakMultiplier, 0);
+            Debug.Log("Target didnt have FPS Controller");
         }
 
-    }
+        float awarnessIncrease = Mathf.Max((_alertnessAtPoint.Evaluate(seenAtAngle) * (1 - (distance / _viewRadius))) - sneakMultiplier, 0);
 
-    private void ClearAwarnes()
-    {
-        foreach (GameObject target in _awareOfTargets.Keys.ToList())
-        {
-            if (!_seenThisFrame.Contains(target))
-            {
-                _awareOfTargets[target] -= 0.08f;
-            }
-
-            if (_awareOfTargets[target] > 1.5)
-            {
-                _agent.AddSuspeciousLocaton(target.transform);
-            }
-
-            if (_awareOfTargets[target] > 2.5 & _seenThisFrame.Contains(target))
-            {
-                _agent.IsAwareOfTarget = true;
-                _agent.UpdateLastSeen(target.transform);
-            }
-            else
-            {
-                _agent.IsAwareOfTarget = false;
-            }
-
-            if (_awareOfTargets[target] < 0)
-            {
-                _awareOfTargets.Remove(target);
-            }
-
-        }
-
-        
-    }
-
-
-    private void Update()
-    {
-        DebugView.text = "";
-
-        DebugView.text += "Current AI State: " + _agent.GetCurrentState() + "\n";
-        DebugView.text += "Is AI seeing Target: " + _agent.IsAwareOfTarget + "\n";
-        foreach (GameObject target in _awareOfTargets.Keys.ToList())
-        {
-            DebugView.color = new Color(0.5f, 1f, 0f, 1f);
-            DebugView.text += target + ": " + _awareOfTargets[target] + " From Vision";
-            
-        }
+        _agent.UpdateAwarness(target, awarnessIncrease, true);
     }
 
     protected override IEnumerator BeginSense()

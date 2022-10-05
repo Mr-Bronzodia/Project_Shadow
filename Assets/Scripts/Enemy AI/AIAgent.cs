@@ -1,6 +1,9 @@
+using Packages.Rider.Editor.UnitTesting;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -53,8 +56,10 @@ public class AIAgent : MonoBehaviour
     [SerializeField] private AlertState _currentAlertLevel;
     private Transform _suspeciousLocation = null;
     private Transform _lastSeenTarget = null;
-    public Action StartSenses;
+    private Dictionary<GameObject, float> _awareForTargets = new Dictionary<GameObject, float>();
 
+
+    public Action StartSenses;
     public AIState CurrentAIState { get { return _currentAIState; } set { _currentAIState = value; } }
     public NavMeshAgent NavMeshAgent { get { return _navAgent; } }
     public AlertState AlertState { get { return _currentAlertLevel; } }
@@ -63,6 +68,11 @@ public class AIAgent : MonoBehaviour
     public Transform LastSeenTargetLocation { get { return _lastSeenTarget; } }
 
     public bool IsAwareOfTarget = false;
+
+    public Dictionary<GameObject, float> AwareForTargets { get { return _awareForTargets; } }
+
+    public TMP_Text DebugView;
+
 
 
 
@@ -99,6 +109,40 @@ public class AIAgent : MonoBehaviour
         _lastSeenTarget = target;
     }
 
+
+    public void UpdateAwarness(GameObject target, float amount, bool sensedThisFrame)
+    {
+        if (!_awareForTargets.ContainsKey(target)) 
+        {
+            _awareForTargets[target] = amount;
+            return;
+        }
+
+        _awareForTargets[target] += amount;
+
+
+        if (_awareForTargets[target] <= 0)
+        {
+            _awareForTargets.Remove(target);
+            return;
+        }
+
+        if (_awareForTargets[target] > 1.5)
+        {
+            AddSuspeciousLocaton(target.transform);
+        }
+
+        if (_awareForTargets[target] > 2.5 & sensedThisFrame)
+        {
+            IsAwareOfTarget = true;
+            UpdateLastSeen(target.transform);
+        }
+        else
+        {
+            IsAwareOfTarget = false;
+        }
+    }
+
     private void Awake()
     {
         GuardShedue.InitStops();
@@ -116,5 +160,16 @@ public class AIAgent : MonoBehaviour
     void Update()
     {
         _currentAIState.UpdateState();
+
+        DebugView.text = "";
+
+        DebugView.text += "Current AI State: " + _currentAIState + "\n";
+        DebugView.text += "Is AI seeing Target: " + IsAwareOfTarget + "\n";
+        foreach (GameObject target in _awareForTargets.Keys.ToList())
+        {
+            DebugView.color = new Color(0.5f, 1f, 0f, 1f);
+            DebugView.text += target + ": " + _awareForTargets[target];
+
+        }
     }
 }
