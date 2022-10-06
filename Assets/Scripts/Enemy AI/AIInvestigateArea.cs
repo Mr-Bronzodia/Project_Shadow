@@ -47,6 +47,8 @@ public class AIInvestigateArea : AIState
 
     public override void EnterState()
     {
+        _ctx.ChangeAlertState(AlertState.Suspecious);
+
         for (int i = 0; i <= 2; i++)
         {
             _investigationsPoint[i] = SampleRandomNavPosition(_investigationAreaRadius);
@@ -60,6 +62,7 @@ public class AIInvestigateArea : AIState
 
     public override void ExitState()
     {
+        _ctx.ChangeAlertState(AlertState.Unalerted);
         _investigationsPoint = new Vector3[4];
         _investigationsCount = 0;
         _timeInvestigatingPoint = 0;

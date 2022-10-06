@@ -84,13 +84,13 @@ public class AIAgent : MonoBehaviour
         switch (newState)
         {
             case AlertState.Unalerted:
-                _navAgent.speed = 1.5f;
+                _navAgent.speed = 0.5f;
                 break;
             case AlertState.Suspecious:
-                _navAgent.speed = 3.5f;
+                _navAgent.speed = 0.5f;
                 break;
             case AlertState.Alerted:
-                _navAgent.speed = 5.0f;
+                _navAgent.speed = 5f;
                 break;
         }
     }

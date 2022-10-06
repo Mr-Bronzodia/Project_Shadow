@@ -16,7 +16,7 @@ public class AIChaseState : AIState
 
     public override void EnterState()
     {
-
+        _ctx.ChangeAlertState(AlertState.Alerted);
     }
 
     public override void ExitState()
