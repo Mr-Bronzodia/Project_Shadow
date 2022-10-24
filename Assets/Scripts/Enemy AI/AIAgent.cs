@@ -61,6 +61,9 @@ public class AIAgent : MonoBehaviour
 
 
     public Action StartSenses;
+
+    public Action OnCombatContinue;
+
     public AIState CurrentAIState { get { return _currentAIState; } set { _currentAIState = value; } }
     public NavMeshAgent NavMeshAgent { get { return _navAgent; } }
     public AlertState AlertState { get { return _currentAlertLevel; } }
@@ -84,10 +87,10 @@ public class AIAgent : MonoBehaviour
         switch (newState)
         {
             case AlertState.Unalerted:
-                _navAgent.speed = 0.5f;
+                _navAgent.speed = 1.7f;
                 break;
             case AlertState.Suspecious:
-                _navAgent.speed = 0.5f;
+                _navAgent.speed = 1.7f;
                 break;
             case AlertState.Alerted:
                 _navAgent.speed = 5f;
@@ -163,7 +166,7 @@ public class AIAgent : MonoBehaviour
 
     void Update()
     {
-        _currentAIState.UpdateState();
+        _currentAIState.UpdateStates();
 
         DebugView.text = "";
 

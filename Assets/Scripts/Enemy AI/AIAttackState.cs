@@ -1,33 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AIAttackState : AIState
 {
-    public AIAttackState(AIAgent agent, AIStateFactory factory) : base(agent, factory) { }
+    public AIAttackState(AIAgent agent, AIStateFactory factory) : base(agent, factory) 
+    {
+
+    }
 
     public override void CheckSwichState()
     {
-        throw new System.NotImplementedException();
+        if (_ctx.LastSeenTargetLocation != null)
+        {
+            if (Vector3.Distance(_ctx.transform.position, _ctx.LastSeenTargetLocation.position) > _ctx.NavMeshAgent.stoppingDistance)
+            {
+                SwitchState(_factory.Chase());
+            }
+        }
     }
 
     public override void EnterState()
     {
-        throw new System.NotImplementedException();
+ 
     }
 
     public override void ExitState()
     {
-        throw new System.NotImplementedException();
+       
     }
 
     public override void InitializeSubState()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void UpdateState()
     {
-        throw new System.NotImplementedException();
+        if(_ctx.LastSeenTargetLocation != null) 
+        {
+            _ctx.transform.LookAt(_ctx.LastSeenTargetLocation.position);
+        }
+
+        _ctx.OnCombatContinue?.Invoke();
+
+        CheckSwichState();
     }
 }

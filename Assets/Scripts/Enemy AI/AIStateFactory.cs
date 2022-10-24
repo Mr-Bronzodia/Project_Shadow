@@ -11,12 +11,14 @@ public class AIStateFactory
     {
         _agent = agent;
 
+        _states["SubAttack"] = new AISubAttack(agent, this);
         _states["MoveToState"] = new AIMoveToPost(agent, this);
         _states["GuardPost"] = new AIGuardPostState(agent, this);
         _states["DeadState"] = new AIDeadState(agent, this);
         _states["ChaseState"] = new AIChaseState(agent, this);
         _states["AttackState"] = new AIAttackState(agent, this);
         _states["InvestigateState"] = new AIInvestigateArea(agent, this);
+        
     }
 
     public AIState Investigate()
@@ -47,5 +49,10 @@ public class AIStateFactory
     public AIState Attack()
     {
         return _states["AttackState"];
+    }
+
+    public AIState SubAttack()
+    {
+        return _states["SubAttack"];
     }
 }
