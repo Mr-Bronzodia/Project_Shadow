@@ -11,6 +11,11 @@ public class AIGuardPostState : AIState
 
     public override void CheckSwichState()
     {
+        if (_ctx.IsDead)
+        {
+            SwitchState(_factory.Dead());
+        }
+
         if (_ctx.SuspeciousLocation != null) 
         {
             SwitchState(_factory.Investigate());

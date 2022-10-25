@@ -44,7 +44,7 @@ public class GuardShedue
     }
 }
 
-[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(NavMeshAgent), typeof(ResourceManager))]
 public class AIAgent : MonoBehaviour
 {
 
@@ -58,6 +58,8 @@ public class AIAgent : MonoBehaviour
     private Transform _lastSeenTarget = null;
     private Dictionary<GameObject, float> _awareForTargets = new Dictionary<GameObject, float>();
     private List<bool> _shouldBeSensed = new List<bool>();
+    private bool _isDead = false;  
+    private ResourceManager _resourceManager;
 
 
     public Action StartSenses;
@@ -74,6 +76,8 @@ public class AIAgent : MonoBehaviour
     public Dictionary<string, bool> IsAwareOfTarget;
 
     public Dictionary<GameObject, float> AwareForTargets { get { return _awareForTargets; } }
+
+    public bool IsDead { get { return _isDead; } }
 
     public TMP_Text DebugView;
 
@@ -96,6 +100,11 @@ public class AIAgent : MonoBehaviour
                 _navAgent.speed = 5f;
                 break;
         }
+    }
+
+    private void OnDeath()
+    {
+        _isDead = true;
     }
 
     public AIState GetCurrentState()
@@ -153,6 +162,7 @@ public class AIAgent : MonoBehaviour
         GuardShedue.InitStops();
         IsAwareOfTarget = new Dictionary<string, bool>();
         _AIStateFactory = new AIStateFactory(this);
+        _resourceManager = GetComponent<ResourceManager>(); 
         _currentAIState = _AIStateFactory.MoveToPost();
         _currentAIState.EnterState();
     }
@@ -161,6 +171,16 @@ public class AIAgent : MonoBehaviour
     {
         StartSenses?.Invoke();
         DebugView.color = new Color(0.5f, 1f, 0f, 1f);
+    }
+
+    private void OnEnable()
+    {
+        _resourceManager.OnZeroHelath += OnDeath;
+    }
+
+    private void OnDisable()
+    {
+        _resourceManager.OnZeroHelath -= OnDeath;
     }
 
 

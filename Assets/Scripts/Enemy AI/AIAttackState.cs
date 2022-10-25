@@ -12,6 +12,11 @@ public class AIAttackState : AIState
 
     public override void CheckSwichState()
     {
+        if (_ctx.IsDead)
+        {
+            SwitchState(_factory.Dead());
+        }
+
         if (_ctx.LastSeenTargetLocation != null)
         {
             if (Vector3.Distance(_ctx.transform.position, _ctx.LastSeenTargetLocation.position) > _ctx.NavMeshAgent.stoppingDistance)

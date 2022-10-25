@@ -88,7 +88,6 @@ public class AnimationControllerScript : MonoBehaviour
             if (_velocity.magnitude > 3.0f)
             {
                 int rool = Random.Range(0, 3);
-                Debug.Log(rool);
 
                 switch(rool) 
                 {

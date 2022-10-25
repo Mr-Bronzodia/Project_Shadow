@@ -8,6 +8,11 @@ public class AIChaseState : AIState
 
     public override void CheckSwichState()
     {
+        if (_ctx.IsDead)
+        {
+            SwitchState(_factory.Dead());
+        }
+
         if (_ctx.NavMeshAgent.remainingDistance < _ctx.NavMeshAgent.stoppingDistance && _ctx.IsAware())
         {
             SwitchState(_factory.Attack());  

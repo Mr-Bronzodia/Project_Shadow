@@ -18,7 +18,6 @@ public class AIStateFactory
         _states["ChaseState"] = new AIChaseState(agent, this);
         _states["AttackState"] = new AIAttackState(agent, this);
         _states["InvestigateState"] = new AIInvestigateArea(agent, this);
-        
     }
 
     public AIState Investigate()
@@ -55,4 +54,5 @@ public class AIStateFactory
     {
         return _states["SubAttack"];
     }
+
 }

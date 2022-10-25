@@ -8,26 +8,27 @@ public class AIDeadState : AIState
 
     public override void CheckSwichState()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void EnterState()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Dead");
+        _ctx.NavMeshAgent.isStopped = true;
     }
 
     public override void ExitState()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void InitializeSubState()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void UpdateState()
     {
-        throw new System.NotImplementedException();
+        
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Attack : MonoBehaviour
 {
     [SerializeField] private Transform boxCenter;
-    [SerializeField] private LayerMask characterMask;
+    [SerializeField] private LayerMask characterLayer;
     [SerializeField] private float halfExtends;
 
 
@@ -14,14 +14,22 @@ public class Attack : MonoBehaviour
    {
         if(boxCenter == null) return;
 
-        Collider[] collidersDetected = Physics.OverlapBox(boxCenter.position, new Vector3(halfExtends, halfExtends, halfExtends), Quaternion.identity, characterMask);
+        Collider[] collidersDetected = Physics.OverlapBox(boxCenter.position, new Vector3(halfExtends, halfExtends, halfExtends), Quaternion.identity, characterLayer);
 
         foreach(Collider collider in collidersDetected)
         {
-            if(collider.gameObject.tag != gameObject.tag)
+            if (collider.gameObject.tag == gameObject.tag) return;
+
+            ResourceManager resourceManager;
+            if (collider.gameObject.TryGetComponent<ResourceManager>(out resourceManager))
             {
-                Debug.Log(gameObject.tag + "Attacked " + collider.gameObject.tag + " : " + collider.name);
+                resourceManager.ApplyDamage(30f);
             }
+            else
+            {
+                Debug.LogError("Object: " + collider.gameObject.name + " doesn't have resource manager but should");
+            }
+
         }
    }
 

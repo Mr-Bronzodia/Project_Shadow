@@ -18,6 +18,11 @@ public class AIInvestigateArea : AIState
 
     public override void CheckSwichState()
     {
+        if (_ctx.IsDead)
+        {
+            SwitchState(_factory.Dead());
+        }
+
         if (_ctx.LastSeenTargetLocation != null)
         {
             SwitchState(_factory.Chase());
