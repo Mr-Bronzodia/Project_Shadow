@@ -9,6 +9,7 @@ public class AnimationControllerScript : MonoBehaviour
     private NavMeshAgent _navComponent;
     private AIAgent _aiComponent;
     private Animator _animator;
+    private Attack _attackManager;
 
     private int _velocityParHash;
     private int _shouldRunParHash;
@@ -19,6 +20,7 @@ public class AnimationControllerScript : MonoBehaviour
     private int _slash2ParHash;
     private int _slash3ParHash;
     private int _slash4ParHash;
+    private int _onBeingExecutedParHash;
 
 
     private Vector3 _velocity;
@@ -32,6 +34,7 @@ public class AnimationControllerScript : MonoBehaviour
         _navComponent = GetComponent<NavMeshAgent>();
         _aiComponent = GetComponent<AIAgent>();
         _animator = GetComponent<Animator>();
+        _attackManager = GetComponent<Attack>();    
 
         HashStrings();   
     }
@@ -49,16 +52,25 @@ public class AnimationControllerScript : MonoBehaviour
         _slash2ParHash = Animator.StringToHash("Slash2");
         _slash3ParHash = Animator.StringToHash("Slash3");
         _slash4ParHash = Animator.StringToHash("Slash4");
+        _onBeingExecutedParHash = Animator.StringToHash("OnBegginExecution");
+    }
+
+    private void OnBeingExecuted()
+    {
+        _animator.SetTrigger(_onBeingExecutedParHash);
+        _aiComponent.OnDeath();
     }
 
     private void OnEnable()
     {
         _aiComponent.OnCombatContinue += UpdateCombatAnims;
+        _attackManager.OnBeingExecuted += OnBeingExecuted;
     }
 
     private void OnDisable()
     {
         _aiComponent.OnCombatContinue -= UpdateCombatAnims;
+        _attackManager.OnBeingExecuted -= OnBeingExecuted;
     }
 
 

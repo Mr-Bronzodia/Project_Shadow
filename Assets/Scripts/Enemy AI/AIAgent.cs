@@ -44,7 +44,7 @@ public class GuardShedue
     }
 }
 
-[RequireComponent(typeof(NavMeshAgent), typeof(ResourceManager))]
+[RequireComponent(typeof(NavMeshAgent), typeof(ResourceManager), typeof(Attack))]
 public class AIAgent : MonoBehaviour
 {
 
@@ -60,6 +60,7 @@ public class AIAgent : MonoBehaviour
     private List<bool> _shouldBeSensed = new List<bool>();
     private bool _isDead = false;  
     private ResourceManager _resourceManager;
+    private Attack _attackManager;
 
 
     public Action StartSenses;
@@ -102,7 +103,7 @@ public class AIAgent : MonoBehaviour
         }
     }
 
-    private void OnDeath()
+    public void OnDeath()
     {
         _isDead = true;
     }
@@ -162,7 +163,8 @@ public class AIAgent : MonoBehaviour
         GuardShedue.InitStops();
         IsAwareOfTarget = new Dictionary<string, bool>();
         _AIStateFactory = new AIStateFactory(this);
-        _resourceManager = GetComponent<ResourceManager>(); 
+        _resourceManager = GetComponent<ResourceManager>();
+        _attackManager = GetComponent<Attack>();
         _currentAIState = _AIStateFactory.MoveToPost();
         _currentAIState.EnterState();
     }
@@ -182,6 +184,8 @@ public class AIAgent : MonoBehaviour
     {
         _resourceManager.OnZeroHelath -= OnDeath;
     }
+
+
 
 
     void Update()

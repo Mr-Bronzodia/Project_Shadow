@@ -1,4 +1,5 @@
-﻿using TMPro.EditorUtilities;
+﻿using System.Collections;
+using TMPro.EditorUtilities;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
@@ -61,6 +62,7 @@ namespace StarterAssets
 		private int _AttackHash;
 		private int _IsFallingHash;
 		private int _JumpHash;
+		private int _Executing;
         private float _sneakMultiplier;
 
         // cinemachine
@@ -76,7 +78,8 @@ namespace StarterAssets
 		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
 
-		private bool isDead = false;
+		private bool _isDead = false;
+		private bool _isExecuting = false;
 
 	
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -86,6 +89,7 @@ namespace StarterAssets
 		private StarterAssetsInputs _input;
 		private GameObject _mainCamera;
 		private ResourceManager _resourceManager;
+		private Attack _attackManager;
 
 		private const float _threshold = 0.01f;
 
@@ -114,18 +118,22 @@ namespace StarterAssets
             _AttackHash = Animator.StringToHash("IsAttacking");
 			_IsFallingHash = Animator.StringToHash("IsFalling");
 			_JumpHash = Animator.StringToHash("JumpTrigger");
+			_Executing = Animator.StringToHash("Executing");
 			_resourceManager = GetComponent<ResourceManager>();
+			_attackManager = GetComponentInChildren<Attack>();
 
 		}
 
 		private void OnEnable()
 		{
-			_resourceManager.OnZeroHelath += OnDeath; 
+			_resourceManager.OnZeroHelath += OnDeath;
+			_attackManager.OnExecuting += OnExcuteEnemy;
 		}
 
 		private void OnDisable()
 		{
             _resourceManager.OnZeroHelath -= OnDeath;
+            _attackManager.OnExecuting -= OnExcuteEnemy;
         }
 
 		private void Start()
@@ -145,7 +153,7 @@ namespace StarterAssets
 
 		private void Update()
 		{
-			if (!isDead)
+			if (!_isDead && !_isExecuting)
 			{
                 JumpAndGravity();
                 GroundedCheck();
@@ -155,9 +163,15 @@ namespace StarterAssets
             }
         }
 
-		private void LateUpdate()
+		private IEnumerator ReturnControlAfterExecution(float sec)
+        {
+            yield return new WaitForSeconds(sec);
+            _isExecuting = false;
+        }
+
+        private void LateUpdate()
 		{
-			if (!isDead)
+			if (!_isDead && !_isExecuting)
 			{
                 CameraRotation();
             }	
@@ -172,9 +186,19 @@ namespace StarterAssets
 
 		private void OnDeath()
 		{
-			isDead = true;
+			_isDead = true;
 			Debug.Log("Player Dead");
 		}
+
+		private void OnExcuteEnemy(Transform executePosition)
+		{
+			Debug.Log("Executing");
+			_animator.SetTrigger(_Executing);
+			_isExecuting = true;
+			transform.position = executePosition.position;
+			transform.rotation = executePosition.rotation;
+			StartCoroutine(ReturnControlAfterExecution(4.634f));
+        }
 
 		private void CameraRotation()
 		{

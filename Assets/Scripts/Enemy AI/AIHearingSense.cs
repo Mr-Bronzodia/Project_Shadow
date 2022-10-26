@@ -42,6 +42,7 @@ public class AIHearingSense : AISense
 
                 if (target.tag == "Player") 
                 {
+
                     float velocityMagnitude = target.GetComponent<CharacterController>().velocity.magnitude;
                     if (velocityMagnitude > 2.5)
                     {
