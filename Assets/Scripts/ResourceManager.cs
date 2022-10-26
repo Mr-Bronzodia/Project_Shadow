@@ -8,6 +8,8 @@ public class ResourceManager : MonoBehaviour
     [SerializeField] private float _health = 100;
     [SerializeField] private float _mana = 100;
 
+    public float CurrentHealth { get { return _health; } }
+
     public Action OnZeroHelath;
     public Action<float> OnHealthDraine;
     public Action<float> OnManaDrained;

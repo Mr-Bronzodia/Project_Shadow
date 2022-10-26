@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace StarterAssets
 {
-	[RequireComponent(typeof(CharacterController))]
+	[RequireComponent(typeof(CharacterController), typeof(ResourceManager))]
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 	[RequireComponent(typeof(PlayerInput))]
 #endif
@@ -76,6 +76,8 @@ namespace StarterAssets
 		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
 
+		private bool isDead = false;
+
 	
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		private PlayerInput _playerInput;
@@ -83,6 +85,7 @@ namespace StarterAssets
 		private CharacterController _controller;
 		private StarterAssetsInputs _input;
 		private GameObject _mainCamera;
+		private ResourceManager _resourceManager;
 
 		private const float _threshold = 0.01f;
 
@@ -111,8 +114,19 @@ namespace StarterAssets
             _AttackHash = Animator.StringToHash("IsAttacking");
 			_IsFallingHash = Animator.StringToHash("IsFalling");
 			_JumpHash = Animator.StringToHash("JumpTrigger");
+			_resourceManager = GetComponent<ResourceManager>();
 
 		}
+
+		private void OnEnable()
+		{
+			_resourceManager.OnZeroHelath += OnDeath; 
+		}
+
+		private void OnDisable()
+		{
+            _resourceManager.OnZeroHelath -= OnDeath;
+        }
 
 		private void Start()
 		{
@@ -131,16 +145,22 @@ namespace StarterAssets
 
 		private void Update()
 		{
-			JumpAndGravity();
-            GroundedCheck();
-            Attack();
-			Crouch();
-			Move();
+			if (!isDead)
+			{
+                JumpAndGravity();
+                GroundedCheck();
+                Attack();
+                Crouch();
+                Move();
+            }
         }
 
 		private void LateUpdate()
 		{
-			CameraRotation();
+			if (!isDead)
+			{
+                CameraRotation();
+            }	
 		}
 
 		private void GroundedCheck()
@@ -148,6 +168,12 @@ namespace StarterAssets
 			// set sphere position, with offset
 			Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
 			Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
+		}
+
+		private void OnDeath()
+		{
+			isDead = true;
+			Debug.Log("Player Dead");
 		}
 
 		private void CameraRotation()

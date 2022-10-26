@@ -82,6 +82,15 @@ public class AIVisionSense : AISense
         
         if(target.tag == "Player")
         {
+            ResourceManager targetResourceManager;
+            if (target.TryGetComponent<ResourceManager>(out targetResourceManager))
+            {
+                if (targetResourceManager.CurrentHealth <= 0) 
+                {
+                    return;
+                }
+            }
+
             sneakMultiplier = target.GetComponentInChildren<FirstPersonController>().SneakMultiplier;
 
             float awarnessIncrease = Mathf.Max((_alertnessAtPoint.Evaluate(seenAtAngle) * (1 - (distance / _viewRadius))) - sneakMultiplier, 0);
