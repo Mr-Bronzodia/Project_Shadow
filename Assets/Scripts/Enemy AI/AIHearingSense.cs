@@ -18,12 +18,19 @@ public class AIHearingSense : AISense
 
     private void Start()
     {
-        _agent.IsAwareOfTarget["Hearing"] = false;
+        if (Enable)
+        {
+            _agent.IsAwareOfTarget["Hearing"] = false;
+        }
     }
 
     private void OnDisable()
     {
-        _agent.IsAwareOfTarget.Remove("Hearing");
+        if (Enable) 
+        { 
+            _agent.IsAwareOfTarget.Remove("Hearing"); 
+        }
+        
     }
 
     // (1 - (dstToSource / _hearRadius)) - distance multiplier

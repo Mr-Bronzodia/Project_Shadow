@@ -20,12 +20,20 @@ public class AIVisionSense : AISense
 
     private void Start()
     {
-        _agent.IsAwareOfTarget["Vision"] = false;
+        if (Enable)
+        {
+            _agent.IsAwareOfTarget["Vision"] = false;
+        }
+        
     }
 
     private void OnDisable()
     {
-        _agent.IsAwareOfTarget.Remove("Vision");
+        if (Enable) 
+        {
+            _agent.IsAwareOfTarget.Remove("Vision");
+        }
+        
     }
 
     public Vector3 DirFromAngle(float angleInDegrees, bool isGlobal)

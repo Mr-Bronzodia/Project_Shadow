@@ -14,6 +14,8 @@ namespace StarterAssets
 		public bool sprint;
 		public bool crouch;
 		public bool attack;
+		public bool ability;
+		public bool cancel;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -26,6 +28,16 @@ namespace StarterAssets
 		public void OnMove(InputValue value)
 		{
 			MoveInput(value.Get<Vector2>());
+		}
+
+		public void OnAbility(InputValue value)
+		{
+			AbilityInput(value.isPressed);
+		}
+
+		public void OnCancelAbility(InputValue value) 
+		{
+			CancelInput(value.isPressed);
 		}
 
 		public void OnCrouch(InputValue value)
@@ -73,7 +85,15 @@ namespace StarterAssets
 			SprintInput(value.isPressed);
 		}
 #endif
+		public void CancelInput(bool newCancelInput)
+		{
+			cancel = newCancelInput;
+		}
 
+		public void AbilityInput(bool newAbilityState)
+		{
+			ability = newAbilityState;
+		}
 
 		public void MoveInput(Vector2 newMoveDirection)
 		{
