@@ -1,3 +1,4 @@
+using JetBrains.Rider.Unity.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,9 @@ public class AnimationControllerScript : MonoBehaviour
     private AIAgent _aiComponent;
     private Animator _animator;
     private Attack _attackManager;
+    private ResourceManager _resourceManager;
+    private Rigidbody[] _rbs;
+
 
     private int _velocityParHash;
     private int _shouldRunParHash;
@@ -34,9 +38,15 @@ public class AnimationControllerScript : MonoBehaviour
         _navComponent = GetComponent<NavMeshAgent>();
         _aiComponent = GetComponent<AIAgent>();
         _animator = GetComponent<Animator>();
-        _attackManager = GetComponent<Attack>();    
+        _attackManager = GetComponent<Attack>();   
+        _resourceManager = GetComponent<ResourceManager>();
 
         HashStrings();   
+    }
+
+    private void Start()
+    {
+        _rbs = GetComponentsInChildren<Rigidbody>();
     }
 
     private void HashStrings()
@@ -62,22 +72,36 @@ public class AnimationControllerScript : MonoBehaviour
         StartCoroutine(TurnOnRagdoll(5f));
     }
 
+    private void OnZeroHalth()
+    {
+        StartCoroutine(TurnOnRagdoll(0.1f));
+    }
+
     private IEnumerator TurnOnRagdoll(float delay)
     {
         yield return new WaitForSeconds(delay);
         _animator.enabled = false;
+        
+        foreach(Rigidbody rb in _rbs)
+        {
+            rb.maxDepenetrationVelocity = 1f;
+            rb.velocity = Vector3.zero;
+        }
+
     }
 
     private void OnEnable()
     {
         _aiComponent.OnCombatContinue += UpdateCombatAnims;
         _attackManager.OnBeingExecuted += OnBeingExecuted;
+        _resourceManager.OnZeroHelath += OnZeroHalth;
     }
 
     private void OnDisable()
     {
         _aiComponent.OnCombatContinue -= UpdateCombatAnims;
         _attackManager.OnBeingExecuted -= OnBeingExecuted;
+        _resourceManager.OnZeroHelath -= OnZeroHalth;
     }
 
 
