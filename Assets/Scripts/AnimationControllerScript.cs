@@ -59,6 +59,13 @@ public class AnimationControllerScript : MonoBehaviour
     {
         _animator.SetTrigger(_onBeingExecutedParHash);
         _aiComponent.OnDeath();
+        StartCoroutine(TurnOnRagdoll(5f));
+    }
+
+    private IEnumerator TurnOnRagdoll(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        _animator.enabled = false;
     }
 
     private void OnEnable()

@@ -24,7 +24,7 @@ public class Attack : MonoBehaviour
 
         foreach(Collider collider in collidersDetected)
         {
-            if (collider.gameObject.tag == gameObject.tag) return;
+            if (collider.gameObject.tag == gameObject.tag || collider.gameObject.tag == "Untagged") return;
 
             ResourceManager resourceManager;
             if (collider.gameObject.TryGetComponent<ResourceManager>(out resourceManager))
@@ -52,7 +52,7 @@ public class Attack : MonoBehaviour
 
         foreach (Collider collider in collidersDetected)
         {
-            if (collider.gameObject.tag == gameObject.tag) return;
+            if (collider.gameObject.tag == gameObject.tag || collider.tag == "Untagged") continue;
 
             if (Vector3.Angle(gameObject.transform.forward, collider.transform.forward) <= 60f)
             {
@@ -61,7 +61,7 @@ public class Attack : MonoBehaviour
                 Attack enemyAttackManager;
                 if (!collider.gameObject.TryGetComponent<Attack>(out enemyAttackManager))
                 {
-                    Debug.LogError("Coudnt get enemy  attack Script");
+                    Debug.LogError("Coudnt get enemy  attack Script from " + collider.name);
                     return;
                 }
 
