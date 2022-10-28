@@ -9,6 +9,7 @@ public class ShadowAbility : MonoBehaviour
     [SerializeField] private GameObject _shadowPrefab;
     [SerializeField] private GameObject _fxPrefab;
     [SerializeField] private float _range;
+    private FirstPersonController _firstPersonController;
     private ResourceManager _resources;
     private StarterAssetsInputs _inputs;
     private ShadowState _currentState;
@@ -30,6 +31,7 @@ public class ShadowAbility : MonoBehaviour
     private void Awake()
     {
         _inputs = GetComponent<StarterAssetsInputs>();
+        _firstPersonController = GetComponent<FirstPersonController>();
         _factory = new ShadowFactory(this);
         _currentState = _factory.Inactive();
         _currentState.EnterState();
@@ -49,6 +51,7 @@ public class ShadowAbility : MonoBehaviour
     public void CreateShadow(Transform tra)
     {
         _shadowInstance = Instantiate(_shadowPrefab, tra.position, Quaternion.identity);
+        _shadowInstance.GetComponent<ShadowController>().AssignInputs(_inputs, this);
     }
 
     public void DestroyShadow()

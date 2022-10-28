@@ -23,12 +23,10 @@ public class ShadowInactiveState : ShadowState
 
     public override void EnterState()
     {
-        Debug.Log("Entered");
     }
 
     protected override void ExitState()
     {
-        Debug.Log("Exit");
     }
 
     protected override void InitializeSubState()

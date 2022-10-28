@@ -6,6 +6,7 @@ public class ShadowActiveState : ShadowState
 {
     public ShadowActiveState(ShadowAbility context, ShadowFactory factory) : base(context, factory)
     {
+
     }
 
     protected override void CheckSwitchStates()
@@ -14,11 +15,16 @@ public class ShadowActiveState : ShadowState
         {
             SwitchState(_factory.Inactive());
         }
+
+        if(_ctx.ShadowInstance == null) 
+        {
+            SwitchState(_factory.Inactive());
+        }
     }
 
     public override void EnterState()
     {
-        Debug.Log("EnteredActive");
+
     }
 
     protected override void ExitState()

@@ -95,11 +95,12 @@ public class AIVisionSense : AISense
             {
                 if (targetResourceManager.CurrentHealth <= 0) 
                 {
+                    _agent.AwareForTargets.Remove(target);
                     return;
                 }
             }
 
-            sneakMultiplier = target.GetComponentInChildren<FirstPersonController>().SneakMultiplier;
+            sneakMultiplier = 0;
 
             float awarnessIncrease = Mathf.Max((_alertnessAtPoint.Evaluate(seenAtAngle) * (1 - (distance / _viewRadius))) - sneakMultiplier, 0);
 
@@ -112,7 +113,7 @@ public class AIVisionSense : AISense
         }
         else
         {
-            Debug.Log("Target didnt have FPS Controller");
+            Debug.Log("Donthave fps");
         }
 
         

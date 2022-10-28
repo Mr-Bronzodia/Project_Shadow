@@ -13,7 +13,6 @@ public class ShadowSpawningState : ShadowState
         if (!_ctx.Inputs.ability && _ctx.FxInstance != null)
         {
             _ctx.CreateShadow(_ctx.FxInstance.transform);
-            Debug.Log("After spawning");
             SwitchState(_factory.Active());
         }
         else if(!_ctx.Inputs.ability && _ctx.FxInstance == null)
@@ -29,13 +28,11 @@ public class ShadowSpawningState : ShadowState
 
     public override void EnterState()
     {
-        Debug.Log("spawning");
     }
 
     protected override void ExitState()
     {
         _ctx.DestroyFX();
-        Debug.Log("Exited Spawnig");
     }
 
     protected override void InitializeSubState()
@@ -59,7 +56,6 @@ public class ShadowSpawningState : ShadowState
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, _ctx.AbilityRange, _ctx.AbilityLayerMask))
         {
-            Debug.Log(hit.normal);
 
             if (hit.normal != new Vector3(0, 1 , 0) && hit.collider is BoxCollider) 
             {
@@ -93,6 +89,5 @@ public class ShadowSpawningState : ShadowState
                 }
             }
         }
-        Debug.Log("Update runned");
     }
 }
