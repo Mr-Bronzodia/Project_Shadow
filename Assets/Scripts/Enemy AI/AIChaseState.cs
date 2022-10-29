@@ -14,28 +14,30 @@ public class AIChaseState : AIState
             SwitchState(_factory.Dead());
         }
 
-        GameObject[] AwareOfTargetArray = _ctx.AwareForTargets.Keys.ToArray();
         for (int i = 0; i < _ctx.AwareForTargets.Count; i++)
         {
             ResourceManager targetResourceManager;
-            if (AwareOfTargetArray[i].TryGetComponent<ResourceManager>(out targetResourceManager))
+            if (_ctx.AwareForTargets[i].Target.TryGetComponent<ResourceManager>(out targetResourceManager))
             {
                 if (targetResourceManager.CurrentHealth <= 0)
                 {
-                    SwitchState(_factory.MoveToPost());
+                    _ctx.AwareForTargets.RemoveAt(i);
+                    return;
                 }
             }
-        }
 
-        if (_ctx.NavMeshAgent.remainingDistance < _ctx.NavMeshAgent.stoppingDistance && _ctx.IsAware())
+            //if (_ctx.NavMeshAgent.remainingDistance < _ctx.NavMeshAgent.stoppingDistance && _ctx.AwareForTargets[i].IsAware())
+            if (Vector3.Distance(_ctx.AwareForTargets[i].Target.transform.position, _ctx.transform.position) < _ctx.NavMeshAgent.stoppingDistance && _ctx.AwareForTargets[i].IsAware())
+            {
+                Debug.Log("soy attacked");
+                SwitchState(_factory.Attack());
+            }
+        } 
+
+
+        if (_ctx.CurrentTarget == null)
         {
-            SwitchState(_factory.Attack());  
-        }
-
-
-        if (_ctx.IsAware() == false)
-        {
-            SwitchState(_factory.Investigate());
+            SwitchState(_factory.MoveToPost());
         }
     }
 
@@ -49,6 +51,20 @@ public class AIChaseState : AIState
         _ctx.UpdateLastSeen(null);
     }
 
+    public void FindSuitableTartget()
+    {
+        foreach (AwareTarget target in _ctx.AwareForTargets) 
+        {
+            if (target != null) 
+            {
+                if (target.IsAware())
+                {
+                    _ctx.NavMeshAgent.destination = target.Target.transform.position;
+                }
+            }   
+        }
+    }
+
     public override void InitializeSubState()
     {
         
@@ -56,7 +72,7 @@ public class AIChaseState : AIState
 
     public override void UpdateState()
     {
-        _ctx.NavMeshAgent.destination = _ctx.LastSeenTargetLocation.position;
+        FindSuitableTartget();
         CheckSwichState();
     }
 }

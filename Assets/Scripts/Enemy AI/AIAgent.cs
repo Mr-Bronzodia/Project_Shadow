@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -44,6 +45,54 @@ public class GuardShedue
     }
 }
 
+public class AwareTarget
+{
+    public AwareTarget(GameObject target)
+    {
+        Target = target;
+    }
+
+    public float LevelFromVision;
+    public float LevelFromHearing;
+
+    public GameObject Target;
+
+    public bool vision = false;
+    public bool hearing = false;
+
+    public bool IsAware()
+    {
+        if (vision || hearing)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static bool Contains(GameObject target, List<AwareTarget> list)
+    {
+        foreach(AwareTarget i in list)
+        {
+            if (i.Target == target) return true;
+        }
+
+        return false;
+    }
+
+    public static AwareTarget GetByGameObject(GameObject target, List<AwareTarget> list)
+    {
+        foreach (AwareTarget i in list)
+        {
+            if (i.Target == target) return i;
+        }
+
+        return null;
+    }
+}
+
 [RequireComponent(typeof(NavMeshAgent), typeof(ResourceManager), typeof(Attack))]
 public class AIAgent : MonoBehaviour
 {
@@ -56,11 +105,12 @@ public class AIAgent : MonoBehaviour
     [SerializeField] private AlertState _currentAlertLevel;
     private Transform _suspeciousLocation = null;
     private Transform _lastSeenTarget = null;
-    private Dictionary<GameObject, float> _awareForTargets = new Dictionary<GameObject, float>();
+    private List<AwareTarget> _awareForTargets = new List<AwareTarget>();
     private List<bool> _shouldBeSensed = new List<bool>();
     private bool _isDead = false;  
     private ResourceManager _resourceManager;
     private Attack _attackManager;
+    private AwareTarget _currentTarget;
 
 
     public Action StartSenses;
@@ -71,12 +121,12 @@ public class AIAgent : MonoBehaviour
     public NavMeshAgent NavMeshAgent { get { return _navAgent; } }
     public AlertState AlertState { get { return _currentAlertLevel; } }
     public GuardShedue GuardShedue { get { return _guardShedue; } }
-    public Transform SuspeciousLocation { get { return _suspeciousLocation; } }
-    public Transform LastSeenTargetLocation { get { return _lastSeenTarget; } }
+    //public Transform SuspeciousLocation { get { return _suspeciousLocation; } }
+    //public Transform LastSeenTargetLocation { get { return _lastSeenTarget; } }
 
-    public Dictionary<string, bool> IsAwareOfTarget;
+    public AwareTarget CurrentTarget { get { return _currentTarget; } }
 
-    public Dictionary<GameObject, float> AwareForTargets { get { return _awareForTargets; } }
+    public List<AwareTarget> AwareForTargets { get { return _awareForTargets; } }
 
     public bool IsDead { get { return _isDead; } }
 
@@ -124,44 +174,85 @@ public class AIAgent : MonoBehaviour
     }
 
 
-    public void UpdateAwarness(GameObject target, float amount, bool sensedThisFrame)
+    public void UpdateAwarness(GameObject target, float amount, AISense sense, bool sensed)
     {
-        if (!_awareForTargets.ContainsKey(target)) 
+
+        if (!AwareTarget.Contains(target, _awareForTargets))
         {
-            _awareForTargets[target] = amount;
+            AwareTarget newTarget = new AwareTarget(target);
+
+            switch (sense)
+            {
+                case AIVisionSense:
+                    newTarget.vision = sensed;
+                    newTarget.LevelFromVision = amount;
+                    break;
+                case AIHearingSense:
+                    newTarget.hearing = sensed;
+                    newTarget.LevelFromHearing = amount;
+                    break;
+                default:
+                    break;
+            }
+
+            _awareForTargets.Add(newTarget);
             return;
         }
 
-        _awareForTargets[target] += amount;
+        AwareTarget currentTarget = AwareTarget.GetByGameObject(target, _awareForTargets);
 
 
-        if (_awareForTargets[target] <= 0)
+        if (sense is AIHearingSense)
         {
-            _awareForTargets.Remove(target);
+            currentTarget.hearing = sensed;
+            currentTarget.LevelFromHearing += amount;
+        }
+
+        if (sense is AIVisionSense)
+        {
+            currentTarget.vision = sensed;
+            currentTarget.LevelFromVision += amount;
+        }
+
+
+        if (currentTarget.LevelFromVision + currentTarget.LevelFromHearing <= 0)
+        {
+            _awareForTargets.Remove(currentTarget);
             return;
         }
 
-        if (_awareForTargets[target] > 1.5)
-        {
-            AddSuspeciousLocaton(target.transform);
-        }
 
-        if (_awareForTargets[target] > 2.5 & IsAware())
-        {
-            UpdateLastSeen(target.transform);
-        }
+        //if (currentTarget.LevelFromVision > 1.5 || currentTarget.LevelFromHearing > 1.5)
+        //{
+        //    AddSuspeciousLocaton(target.transform);
+        //}
+
+        //if (currentTarget.LevelFromVision > 2.5 & currentTarget.vision)
+        //{
+        //    UpdateLastSeen(target.transform);
+        //}
+
+        //if (currentTarget.LevelFromHearing > 2.5 & currentTarget.vision)
+        //{
+        //    UpdateLastSeen(target.transform);
+        //}
+
+        //if (currentTarget.LevelFromHearing > 3.5 & currentTarget.hearing)
+        //{
+        //    UpdateLastSeen(target.transform);
+        //}
 
     }
 
-    public bool IsAware()
+
+    public bool IsAware(GameObject target)
     {
-        return IsAwareOfTarget.Values.ToList().Contains(true);
+        return AwareTarget.GetByGameObject(target, _awareForTargets).IsAware();
     }
 
     private void Awake()
     {
         GuardShedue.InitStops();
-        IsAwareOfTarget = new Dictionary<string, bool>();
         _AIStateFactory = new AIStateFactory(this);
         _resourceManager = GetComponent<ResourceManager>();
         _attackManager = GetComponent<Attack>();
@@ -185,20 +276,38 @@ public class AIAgent : MonoBehaviour
         _resourceManager.OnZeroHelath -= OnDeath;
     }
 
+    private void EvaluateTarget()
+    {
+        if (_awareForTargets.Count == 0)
+        {
+            _currentTarget = null;
+            return;
+        }
 
+        float highestAwarness = 0f;
+        foreach(AwareTarget target in _awareForTargets) 
+        {
+            if (target.LevelFromVision + target.LevelFromHearing > highestAwarness)
+            {
+                highestAwarness = target.LevelFromVision + target.LevelFromHearing;
+                _currentTarget = target;
+            }
+        }
+    }
 
 
     void Update()
     {
+        EvaluateTarget();
         _currentAIState.UpdateStates();
 
         DebugView.text = "";
 
         DebugView.text += gameObject.name + " state: " + _currentAIState + "\n";
-        DebugView.text += gameObject.name + " sensing Target: " + IsAware() + "\n";
-        foreach (GameObject target in _awareForTargets.Keys.ToList())
+        foreach (AwareTarget target in _awareForTargets)
         {
-            DebugView.text += target + ": " + _awareForTargets[target] + "\n";
+            DebugView.text += target.Target.name + ": " + " Vision: " + target.vision + " Vision Level: " + target.LevelFromVision + " Heraing: " + target.hearing + " Hearing Level: " + target.LevelFromHearing + "\n";
+            DebugView.text += "Current Target: " + _currentTarget.Target.name;
 
         }
     }

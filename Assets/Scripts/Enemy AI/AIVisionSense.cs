@@ -20,19 +20,12 @@ public class AIVisionSense : AISense
 
     private void Start()
     {
-        if (Enable)
-        {
-            _agent.IsAwareOfTarget["Vision"] = false;
-        }
+
         
     }
 
     private void OnDisable()
     {
-        if (Enable) 
-        {
-            _agent.IsAwareOfTarget.Remove("Vision");
-        }
         
     }
 
@@ -75,10 +68,12 @@ public class AIVisionSense : AISense
                 }
             }
 
-            if (_agent.AwareForTargets.Keys.ToList().Contains(target.gameObject) && !_seenThisFrame.Contains(target.gameObject))
+            if (AwareTarget.Contains(target.gameObject, _agent.AwareForTargets) && !_seenThisFrame.Contains(target.gameObject))
             {
-                _agent.UpdateAwarness(target.gameObject, -0.08f, false);
-                _agent.IsAwareOfTarget["vision"] = false;
+                if (AwareTarget.GetByGameObject(target.gameObject, _agent.AwareForTargets).LevelFromVision > 0)
+                {
+                    _agent.UpdateAwarness(target.gameObject, -0.08f, this, false);
+                }  
             }
 
         }
@@ -87,7 +82,9 @@ public class AIVisionSense : AISense
     private void BuildAwarnessOnSeen(GameObject target, float seenAtAngle, float distance)
     {
         float sneakMultiplier = 0;
-        
+
+        if (target.tag == "Untagged") return;
+
         if(target.tag == "Player")
         {
             ResourceManager targetResourceManager;
@@ -95,7 +92,7 @@ public class AIVisionSense : AISense
             {
                 if (targetResourceManager.CurrentHealth <= 0) 
                 {
-                    _agent.AwareForTargets.Remove(target);
+                    _agent.AwareForTargets.Remove(AwareTarget.GetByGameObject(target, _agent.AwareForTargets));
                     return;
                 }
             }
@@ -104,12 +101,11 @@ public class AIVisionSense : AISense
 
             float awarnessIncrease = Mathf.Max((_alertnessAtPoint.Evaluate(seenAtAngle) * (1 - (distance / _viewRadius))) - sneakMultiplier, 0);
 
-            _agent.UpdateAwarness(target, awarnessIncrease, true);
-            _agent.IsAwareOfTarget["vision"] = true;
+            _agent.UpdateAwarness(target, awarnessIncrease, this, true);
         }
         else if (target.tag == "NPC")
         {
-            Debug.Log("Seeing friend :]");
+            
         }
         else
         {

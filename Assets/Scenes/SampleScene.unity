@@ -421,7 +421,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -454.54468, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -852,6 +852,95 @@ Transform:
   m_Father: {fileID: 784087842}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1046818412
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2134324741379432867, guid: e241fde1875b0d84880ade4dafaf7b0f,
+        type: 3}
+      propertyPath: DebugView
+      value: 
+      objectReference: {fileID: 1488796702}
+    - target: {fileID: 2134324741379432867, guid: e241fde1875b0d84880ade4dafaf7b0f,
+        type: 3}
+      propertyPath: _guardShedue.GuardPath
+      value: 
+      objectReference: {fileID: 1956855298}
+    - target: {fileID: 5961767613327564777, guid: e241fde1875b0d84880ade4dafaf7b0f,
+        type: 3}
+      propertyPath: Enable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727017468233273200, guid: e241fde1875b0d84880ade4dafaf7b0f,
+        type: 3}
+      propertyPath: Enable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209511452153435131, guid: e241fde1875b0d84880ade4dafaf7b0f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209511452153435131, guid: e241fde1875b0d84880ade4dafaf7b0f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.373
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209511452153435131, guid: e241fde1875b0d84880ade4dafaf7b0f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.008
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209511452153435131, guid: e241fde1875b0d84880ade4dafaf7b0f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209511452153435131, guid: e241fde1875b0d84880ade4dafaf7b0f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209511452153435131, guid: e241fde1875b0d84880ade4dafaf7b0f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209511452153435131, guid: e241fde1875b0d84880ade4dafaf7b0f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209511452153435131, guid: e241fde1875b0d84880ade4dafaf7b0f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209511452153435131, guid: e241fde1875b0d84880ade4dafaf7b0f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209511452153435131, guid: e241fde1875b0d84880ade4dafaf7b0f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209511452153435131, guid: e241fde1875b0d84880ade4dafaf7b0f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8837711220538280257, guid: e241fde1875b0d84880ade4dafaf7b0f,
+        type: 3}
+      propertyPath: m_Name
+      value: Paladin WProp J Nordstrom (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e241fde1875b0d84880ade4dafaf7b0f, type: 3}
 --- !u!1 &1109507809
 GameObject:
   m_ObjectHideFlags: 0
@@ -1468,7 +1557,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -432.87207, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2113,6 +2202,11 @@ PrefabInstance:
       propertyPath: Enable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6727017468233273200, guid: e241fde1875b0d84880ade4dafaf7b0f,
+        type: 3}
+      propertyPath: Enable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8209511452153435131, guid: e241fde1875b0d84880ade4dafaf7b0f,
         type: 3}
       propertyPath: m_RootOrder
@@ -2277,6 +2371,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3952503273798851416, guid: 51968b61381b8b7448ac1fbc3464fef7,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 4573831793286273246, guid: 51968b61381b8b7448ac1fbc3464fef7,
         type: 3}
       propertyPath: m_Enabled
@@ -2286,6 +2385,11 @@ PrefabInstance:
         type: 3}
       propertyPath: GroundLayers.m_Bits
       value: 641
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371776896858019414, guid: 51968b61381b8b7448ac1fbc3464fef7,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 7685886780529674946, guid: 51968b61381b8b7448ac1fbc3464fef7,
         type: 3}

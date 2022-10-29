@@ -106,6 +106,11 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 632519762196888091, guid: ebc8f1c90e252c646b165cc274829bf5,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebc8f1c90e252c646b165cc274829bf5, type: 3}
 --- !u!1001 &8929535937506600731
@@ -669,7 +674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f7768deb2727d549b195f04114a09ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 1
+  _health: 10
   _mana: 0
 --- !u!4 &8964042197717942512 stripped
 Transform:

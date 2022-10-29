@@ -23,13 +23,17 @@ public class AIInvestigateArea : AIState
             SwitchState(_factory.Dead());
         }
 
-        if (_ctx.LastSeenTargetLocation != null)
+        foreach (AwareTarget target in _ctx.AwareForTargets) 
         {
-            SwitchState(_factory.Chase());
+            if (target.IsAware()) 
+            {
+                Debug.Log("soy Investigate to chase");
+                SwitchState(_factory.Chase());
+            }
         }
 
 
-        if(_ctx.SuspeciousLocation == null) 
+        if(_ctx.CurrentTarget == null) 
         {
             SwitchState(_factory.MoveToPost());
         }
@@ -37,7 +41,7 @@ public class AIInvestigateArea : AIState
 
     private Vector3 SampleRandomNavPosition(float radius)
     {
-        Vector3 randomPointInRadius = _ctx.SuspeciousLocation.position + Random.insideUnitSphere * radius;
+        Vector3 randomPointInRadius = _ctx.CurrentTarget.Target.transform.position + Random.insideUnitSphere * radius;
         Vector3 finalPoint = Vector3.zero;
 
         NavMeshHit navHit;
@@ -91,7 +95,15 @@ public class AIInvestigateArea : AIState
             {
                 if (_timeInvestigatingPoint > 5f)
                 {
-                    _ctx.NavMeshAgent.destination = _investigationsPoint[_investigationsCount++];
+                    if (_investigationsPoint.Length >= _investigationsCount + 1)
+                    {
+                        _ctx.NavMeshAgent.destination = _investigationsPoint[_investigationsCount++];
+                    }
+                    else
+                    {
+                        SampleRandomNavPosition(_investigationAreaRadius);
+                    }
+
                     _timeInvestigatingPoint = 0;
                 }
             }

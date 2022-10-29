@@ -18,18 +18,11 @@ public class AIHearingSense : AISense
 
     private void Start()
     {
-        if (Enable)
-        {
-            _agent.IsAwareOfTarget["Hearing"] = false;
-        }
+
     }
 
     private void OnDisable()
     {
-        if (Enable) 
-        { 
-            _agent.IsAwareOfTarget.Remove("Hearing"); 
-        }
         
     }
 
@@ -47,20 +40,33 @@ public class AIHearingSense : AISense
                 Transform target = targetsInHearRange[i].transform;
                 float dstToSource = Vector3.Distance(transform.position, target.position);
 
-                if (target.tag == "Player") 
+                if (target.tag == "Player")
                 {
 
-                    float velocityMagnitude = target.GetComponent<CharacterController>().velocity.magnitude;
+                    
+                    CharacterController character;
+                    float velocityMagnitude = 0;
+
+                    if (target.TryGetComponent<CharacterController>(out character))
+                    {
+                        velocityMagnitude = character.velocity.magnitude;
+                    }
+
+
                     if (velocityMagnitude > 2.5)
                     {
                         float intensity = (velocityMagnitude / 10) * (1 - (dstToSource / _hearRadius));
-                        _agent.UpdateAwarness(target.gameObject, intensity, true);
-                        _agent.IsAwareOfTarget["Hearing"] = true;
+                        _agent.UpdateAwarness(target.gameObject, intensity, this, true);
                     }
                     else 
                     {
-                        _agent.UpdateAwarness(target.gameObject, -0.08f, false);
-                        _agent.IsAwareOfTarget["Hearing"] = false;
+                        if (AwareTarget.Contains(target.gameObject, _agent.AwareForTargets))
+                        {
+                            if (AwareTarget.GetByGameObject(target.gameObject, _agent.AwareForTargets).LevelFromHearing > 0)
+                            {
+                                _agent.UpdateAwarness(target.gameObject, -0.08f, this, false);
+                            }
+                        }   
                     }
                     
                 }

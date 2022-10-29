@@ -16,9 +16,17 @@ public class AIGuardPostState : AIState
             SwitchState(_factory.Dead());
         }
 
-        if (_ctx.SuspeciousLocation != null) 
+        if (_ctx.CurrentTarget != null)
         {
-            SwitchState(_factory.Investigate());
+            if (_ctx.CurrentTarget.LevelFromVision > 2.0f)
+            {
+                SwitchState(_factory.Investigate());
+            }
+
+            if (_ctx.CurrentTarget.LevelFromHearing > 2.0f)
+            {
+                SwitchState(_factory.Investigate());
+            }
         }
 
         if (_currentGuardTime > _currentShedue.WaitTime[_currentShedue.CurrentStop])

@@ -24,7 +24,7 @@ public class Attack : MonoBehaviour
 
         foreach(Collider collider in collidersDetected)
         {
-            if (collider.gameObject.tag == gameObject.tag || collider.gameObject.tag == "Untagged") return;
+            if (collider.gameObject.tag == gameObject.tag || collider.gameObject.tag == "Untagged") continue;
 
             ResourceManager resourceManager;
             if (collider.gameObject.TryGetComponent<ResourceManager>(out resourceManager))

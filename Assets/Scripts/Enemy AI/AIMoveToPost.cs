@@ -15,12 +15,19 @@ public class AIMoveToPost : AIState
             SwitchState(_factory.Dead());
         }
 
-        if (_ctx.SuspeciousLocation != null)
+        if (_ctx.CurrentTarget != null)
         {
-            SwitchState(_factory.Investigate());
+            if (_ctx.CurrentTarget.LevelFromVision > 2.0f)
+            {
+                SwitchState(_factory.Investigate());
+            }
+
+            if (_ctx.CurrentTarget.LevelFromHearing > 2.0f)
+            {
+                SwitchState(_factory.Investigate());
+            }
         }
-
-
+        
         if (_ctx.NavMeshAgent.remainingDistance < _ctx.NavMeshAgent.stoppingDistance + 1)
         {
             SwitchState(_factory.GuardPost());
