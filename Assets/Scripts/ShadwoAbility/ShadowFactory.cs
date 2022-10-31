@@ -12,6 +12,7 @@ public class ShadowFactory
         _states["Spawning"] = new ShadowSpawningState(context, this);
         _states["Active"] = new ShadowActiveState(context, this);
         _states["Inactive"] = new ShadowInactiveState(context, this);
+        _states["Swap"] = new ShadowSwap(context, this);
     }
 
     public ShadowState Spawning()
@@ -27,5 +28,10 @@ public class ShadowFactory
     public ShadowState Inactive()
     {
         return _states["Inactive"];
+    }
+
+    public ShadowState Swap()
+    {
+        return _states["Swap"];
     }
 }

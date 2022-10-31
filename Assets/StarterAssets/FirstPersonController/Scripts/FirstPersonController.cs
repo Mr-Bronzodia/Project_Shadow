@@ -59,6 +59,9 @@ namespace StarterAssets
 
 		public Action OnAttackPressed;
 
+		public bool LockControls { get { return _lockControls; } set { _lockControls = value; } }
+		public CharacterController Controller { get { return _controller; } }
+
 		[SerializeField] private Animator _animator;
 		private int _VelociutyHash;
 		private int _CroucHash;
@@ -81,8 +84,7 @@ namespace StarterAssets
 		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
 
-		private bool _isDead = false;
-		private bool _isExecuting = false;
+		private bool _lockControls = false;
 
 	
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -156,10 +158,10 @@ namespace StarterAssets
 
 		private void Update()
 		{
-			if (!_isDead && !_isExecuting)
+			if (!_lockControls)
 			{
-                JumpAndGravity();
-                GroundedCheck();
+				JumpAndGravity();
+				GroundedCheck();
                 Attack();
                 Crouch();
                 Move();
@@ -169,12 +171,12 @@ namespace StarterAssets
 		private IEnumerator ReturnControlAfterExecution(float sec)
         {
             yield return new WaitForSeconds(sec);
-            _isExecuting = false;
+            _lockControls = false;
         }
 
         private void LateUpdate()
 		{
-			if (!_isDead && !_isExecuting)
+			if (!_lockControls)
 			{
                 CameraRotation();
             }	
@@ -189,7 +191,7 @@ namespace StarterAssets
 
 		private void OnDeath()
 		{
-			_isDead = true;
+			_lockControls = true;
 			Debug.Log("Player Dead");
 		}
 
@@ -197,7 +199,7 @@ namespace StarterAssets
 		{
 			Debug.Log("Executing");
 			_animator.SetTrigger(_Executing);
-			_isExecuting = true;
+			_lockControls = true;
 			transform.position = executePosition.position;
 			transform.rotation = executePosition.rotation;
 			StartCoroutine(ReturnControlAfterExecution(4.634f));

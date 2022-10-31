@@ -35,8 +35,6 @@ public class ShadowController : MonoBehaviour
 
     private void OnExcuteEnemy(Transform executePosition)
     {
-        Debug.Log(executePosition.position);
-        Debug.Log(transform.position);
         _animator.SetTrigger(_Executing);
         transform.position = executePosition.position;
         transform.rotation = executePosition.rotation;

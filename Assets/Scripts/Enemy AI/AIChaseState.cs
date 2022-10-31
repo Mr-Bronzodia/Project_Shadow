@@ -29,7 +29,6 @@ public class AIChaseState : AIState
             //if (_ctx.NavMeshAgent.remainingDistance < _ctx.NavMeshAgent.stoppingDistance && _ctx.AwareForTargets[i].IsAware())
             if (Vector3.Distance(_ctx.AwareForTargets[i].Target.transform.position, _ctx.transform.position) < _ctx.NavMeshAgent.stoppingDistance && _ctx.AwareForTargets[i].IsAware())
             {
-                Debug.Log("soy attacked");
                 SwitchState(_factory.Attack());
             }
         } 

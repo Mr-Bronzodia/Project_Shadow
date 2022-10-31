@@ -13,11 +13,18 @@ public class ShadowActiveState : ShadowState
     {
         if (_ctx.Inputs.cancel)
         {
-            SwitchState(_factory.Inactive());
+            _ctx.DestroyShadow();
+            SwitchState(_factory.Inactive());  
         }
+
+        if (_ctx.Inputs.ability && !_ctx.FirstPersonController.LockControls)
+        {
+            SwitchState(_factory.Swap());
+        } 
 
         if(_ctx.ShadowInstance == null) 
         {
+            _ctx.DestroyShadow();
             SwitchState(_factory.Inactive());
         }
     }
@@ -29,7 +36,7 @@ public class ShadowActiveState : ShadowState
 
     protected override void ExitState()
     {
-        _ctx.DestroyShadow();
+        
     }
 
     protected override void InitializeSubState()

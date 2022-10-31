@@ -27,6 +27,8 @@ public class ShadowAbility : MonoBehaviour
 
     public GameObject ShadowInstance { get { return _shadowInstance; } set { _shadowInstance = value; } }
 
+    public FirstPersonController FirstPersonController { get { return _firstPersonController; } }
+
 
     private void Awake()
     {
@@ -54,6 +56,11 @@ public class ShadowAbility : MonoBehaviour
         _shadowInstance.GetComponent<ShadowController>().AssignInputs(_inputs, this);
     }
 
+    public void MovePlayer(Vector3 dir)
+    {
+        _firstPersonController.Controller.Move(dir);
+    }
+
     public void DestroyShadow()
     {
         Destroy(_shadowInstance);
@@ -64,6 +71,4 @@ public class ShadowAbility : MonoBehaviour
     {
         _currentState.UpdateState();
     }
-
-
 }
