@@ -60,7 +60,7 @@ namespace StarterAssets
 		public Action OnAttackPressed;
 
 		public bool LockControls { get { return _lockControls; } set { _lockControls = value; } }
-		public CharacterController Controller { get { return _controller; } }
+		public CharacterController CharacterController { get { return _controller; } }
 
 		[SerializeField] private Animator _animator;
 		private int _VelociutyHash;

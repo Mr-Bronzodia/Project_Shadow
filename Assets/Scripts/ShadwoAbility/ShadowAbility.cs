@@ -58,7 +58,7 @@ public class ShadowAbility : MonoBehaviour
 
     public void MovePlayer(Vector3 dir)
     {
-        _firstPersonController.Controller.Move(dir);
+        _firstPersonController.CharacterController.Move(dir);
     }
 
     public void DestroyShadow()

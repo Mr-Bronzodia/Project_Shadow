@@ -1433,7 +1433,6 @@ MonoBehaviour:
   _fxPrefab: {fileID: 1905290629271483560, guid: 15189433890205440a2cce0cdc9b9333,
     type: 3}
   _range: 10
-  _shadowInstance: {fileID: 0}
   _layerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -2483,6 +2482,11 @@ PrefabInstance:
         type: 3}
       propertyPath: GroundLayers.m_Bits
       value: 641
+      objectReference: {fileID: 0}
+    - target: {fileID: 6101375314945408380, guid: 51968b61381b8b7448ac1fbc3464fef7,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6371776896858019414, guid: 51968b61381b8b7448ac1fbc3464fef7,
         type: 3}
