@@ -29,11 +29,14 @@ public class ShadowAbility : MonoBehaviour
 
     public FirstPersonController FirstPersonController { get { return _firstPersonController; } }
 
+    public ResourceManager PlayerReourceManager { get { return _resources; } }
+
 
     private void Awake()
     {
         _inputs = GetComponent<StarterAssetsInputs>();
         _firstPersonController = GetComponent<FirstPersonController>();
+        _resources = GetComponent<ResourceManager>();
         _factory = new ShadowFactory(this);
         _currentState = _factory.Inactive();
         _currentState.EnterState();

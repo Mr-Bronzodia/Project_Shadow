@@ -14,7 +14,7 @@ public class ShadowInactiveState : ShadowState
 
     protected override void CheckSwitchStates()
     {
-        if (_ctx.Inputs.ability && _timeSinceLastCancel > _cooldownForAllowSpawning)
+        if (_ctx.Inputs.ability && _timeSinceLastCancel > _cooldownForAllowSpawning && _ctx.PlayerReourceManager.IsManaAvailible(10f))
         {
             SwitchState(_factory.Spawning());
         }
@@ -37,6 +37,7 @@ public class ShadowInactiveState : ShadowState
     public override void UpdateState()
     {
         CheckSwitchStates();
+        _ctx.PlayerReourceManager.ApplyManaLose(-10f * Time.deltaTime);
 
         if (_ctx.Inputs.cancel)
         {

@@ -17,6 +17,12 @@ public class ShadowActiveState : ShadowState
             SwitchState(_factory.Inactive());  
         }
 
+        if (_ctx.PlayerReourceManager.CurrentMana <= 1 ) 
+        {
+            _ctx.DestroyShadow();
+            SwitchState(_factory.Inactive());
+        }
+
         if (_ctx.Inputs.ability && !_ctx.FirstPersonController.LockControls)
         {
             SwitchState(_factory.Swap());
@@ -31,7 +37,7 @@ public class ShadowActiveState : ShadowState
 
     public override void EnterState()
     {
-
+        _ctx.PlayerReourceManager.ApplyManaLose(10f);
     }
 
     protected override void ExitState()
@@ -47,5 +53,6 @@ public class ShadowActiveState : ShadowState
     public override void UpdateState()
     {
         CheckSwitchStates();
+        _ctx.PlayerReourceManager.ApplyManaLose(20f * Time.deltaTime);
     }
 }

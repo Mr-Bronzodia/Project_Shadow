@@ -5,14 +5,26 @@ using UnityEngine;
 
 public class ResourceManager : MonoBehaviour
 {
+    [SerializeField] private float _maxHealth;
     [SerializeField] private float _health = 100;
+
+    [SerializeField] private float _maxMana;
     [SerializeField] private float _mana = 100;
 
     public float CurrentHealth { get { return _health; } }
+    public float CurrentMana { get { return _mana; } }
+    public float MaxHealth { get { return _maxHealth; } }
+    public float MaxMana { get { return _maxMana; } }
 
     public Action OnZeroHelath;
     public Action<float> OnHealthDraine;
     public Action<float> OnManaDrained;
+
+    private void OnEnable()
+    {
+        _health = _maxHealth;
+        _mana = _maxMana;
+    }
 
     public void ApplyDamage(float damage)
     {
@@ -39,6 +51,7 @@ public class ResourceManager : MonoBehaviour
 
     public void ApplyManaLose(float manaLose)
     {
+        if (_mana - manaLose <= 0 || _mana - manaLose >= _maxMana) return;
         _mana -= manaLose;
         OnManaDrained?.Invoke(manaLose);
     }
