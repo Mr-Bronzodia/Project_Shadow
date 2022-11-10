@@ -13,7 +13,6 @@ public class AIDeadState : AIState
 
     public override void EnterState()
     {
-        Debug.Log("Dead");
         _ctx.NavMeshAgent.isStopped = true;
     }
 

@@ -1,4 +1,5 @@
 using StarterAssets;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,8 +17,11 @@ public class ShadowAbility : MonoBehaviour
     private ShadowFactory _factory;
     private GameObject _fxInstance;
     private GameObject _shadowInstance;
+    private bool _isExecuting = false;
     [SerializeField] private LayerMask _layerMask;
 
+
+    public Action<ShadowState> OnStateChanged;
     public ShadowState CurrentState { get { return _currentState; } set { _currentState = value; } }
     public StarterAssetsInputs Inputs { get { return _inputs; } }
     public float AbilityRange { get { return _range; } }
@@ -30,6 +34,8 @@ public class ShadowAbility : MonoBehaviour
     public FirstPersonController FirstPersonController { get { return _firstPersonController; } }
 
     public ResourceManager PlayerReourceManager { get { return _resources; } }
+
+    public bool IsExecuting { get { return _isExecuting; } }
 
 
     private void Awake()
@@ -57,6 +63,18 @@ public class ShadowAbility : MonoBehaviour
     {
         _shadowInstance = Instantiate(_shadowPrefab, tra.position, Quaternion.identity);
         _shadowInstance.GetComponent<ShadowController>().AssignInputs(_inputs, this);
+    }
+
+    public void OnExecute()
+    {
+        _isExecuting = true;
+        StartCoroutine(WaitForExecutingAnim(5f));
+    }
+
+    private IEnumerator WaitForExecutingAnim(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        _isExecuting = false;
     }
 
     public void MovePlayer(Vector3 dir)

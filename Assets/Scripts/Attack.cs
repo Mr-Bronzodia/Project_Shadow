@@ -56,7 +56,6 @@ public class Attack : MonoBehaviour
 
             if (Vector3.Angle(gameObject.transform.forward, collider.transform.forward) <= 60f)
             {
-                Debug.Log("BackHit");
 
                 Attack enemyAttackManager;
                 if (!collider.gameObject.TryGetComponent<Attack>(out enemyAttackManager))

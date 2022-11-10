@@ -17,6 +17,7 @@ namespace StarterAssets
 		public bool attack;
 		public bool ability;
 		public bool cancel;
+		public bool pause;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -26,6 +27,7 @@ namespace StarterAssets
 		public bool cursorInputForLook = true;
 
 		public Action<bool> OnAttackTrigger;
+		public Action<bool> OnPauseTrigger;
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		public void OnMove(InputValue value)
@@ -56,7 +58,22 @@ namespace StarterAssets
             }
         }
 
-		public void OnLook(InputValue value)
+        public void OnPause(InputValue value)
+        {
+            switch (pause)
+            {
+                case true:
+                    PauseInput(false);
+                    break;
+                case false:
+                    PauseInput(true);
+                    break;
+            }
+
+			OnPauseTrigger?.Invoke(pause);
+        }
+
+        public void OnLook(InputValue value)
 		{
 			if(cursorInputForLook)
 			{
@@ -130,8 +147,13 @@ namespace StarterAssets
         {
 			crouch = newCrouchState;
         }
-		
-		private void OnApplicationFocus(bool hasFocus)
+
+        public void PauseInput(bool newpauseState)
+        {
+            pause = newpauseState;
+        }
+
+        private void OnApplicationFocus(bool hasFocus)
 		{
 			SetCursorState(cursorLocked);
 		}

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ShadowActiveState : ShadowState
 {
+    private Camera _maincam;
+
     public ShadowActiveState(ShadowAbility context, ShadowFactory factory) : base(context, factory)
     {
 
@@ -38,6 +40,8 @@ public class ShadowActiveState : ShadowState
     public override void EnterState()
     {
         _ctx.PlayerReourceManager.ApplyManaLose(10f);
+        _maincam = Camera.main;
+        _ctx.OnStateChanged?.Invoke(this);
     }
 
     protected override void ExitState()
@@ -52,7 +56,11 @@ public class ShadowActiveState : ShadowState
 
     public override void UpdateState()
     {
+        if (!_ctx.IsExecuting)
+        {
+            _ctx.PlayerReourceManager.ApplyManaLose(20f * Time.deltaTime);
+            _ctx.ShadowInstance.transform.rotation = Quaternion.Euler(0f, _maincam.transform.rotation.eulerAngles.y, 0f);
+        }
         CheckSwitchStates();
-        _ctx.PlayerReourceManager.ApplyManaLose(20f * Time.deltaTime);
     }
 }

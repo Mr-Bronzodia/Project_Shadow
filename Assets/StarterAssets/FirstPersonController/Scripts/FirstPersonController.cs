@@ -197,7 +197,6 @@ namespace StarterAssets
 
 		private void OnExcuteEnemy(Transform executePosition)
 		{
-			Debug.Log("Executing");
 			_animator.SetTrigger(_Executing);
 			_lockControls = true;
 			transform.position = executePosition.position;

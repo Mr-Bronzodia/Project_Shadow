@@ -38,6 +38,7 @@ public class ShadowController : MonoBehaviour
         _animator.SetTrigger(_Executing);
         transform.position = executePosition.position;
         transform.rotation = executePosition.rotation;
+        _shadowAbility.OnExecute();
 
     }
     private void Dead()

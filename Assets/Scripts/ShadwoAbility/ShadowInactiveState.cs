@@ -23,6 +23,7 @@ public class ShadowInactiveState : ShadowState
 
     public override void EnterState()
     {
+        _ctx.OnStateChanged?.Invoke(this);
     }
 
     protected override void ExitState()
