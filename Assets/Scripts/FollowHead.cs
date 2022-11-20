@@ -12,4 +12,9 @@ public class FollowHead : MonoBehaviour
     {
         transform.position = _head.position + _viewOffset; 
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(_head.position + _viewOffset, 0.05f);
+    }
 }
