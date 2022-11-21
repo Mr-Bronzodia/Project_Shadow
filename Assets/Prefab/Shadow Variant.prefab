@@ -133,32 +133,32 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 68c317b5a3108f44fb401e5280b4443a,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.5
+      value: 3.8479998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 68c317b5a3108f44fb401e5280b4443a,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.5
+      value: 3.8479998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 68c317b5a3108f44fb401e5280b4443a,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.5
+      value: 3.8479998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 68c317b5a3108f44fb401e5280b4443a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 408.20602
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 68c317b5a3108f44fb401e5280b4443a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 7.486833
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 68c317b5a3108f44fb401e5280b4443a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 108.42772
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 68c317b5a3108f44fb401e5280b4443a,
         type: 3}
@@ -674,7 +674,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f7768deb2727d549b195f04114a09ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxHealth: 10
   _health: 10
+  _maxMana: 0
   _mana: 0
 --- !u!4 &8964042197717942512 stripped
 Transform:

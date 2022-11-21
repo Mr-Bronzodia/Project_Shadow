@@ -36,6 +36,12 @@ public class ShadowSwap : ShadowState
 
     protected override void CheckSwitchStates()
     {
+        if (_ctx.Inputs.cancel)
+        {
+            _ctx.DestroyShadow();
+            SwitchState(_factory.Inactive());
+        }
+
         if (Vector3.Distance(_ctx.FirstPersonController.transform.position, _shadowPos) < 0.1f)
         { 
             SwitchState(_factory.Active());  

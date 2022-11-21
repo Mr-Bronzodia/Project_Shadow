@@ -57,7 +57,7 @@ public class ShadowSpawningState : ShadowState
         if (Physics.Raycast(ray, out hit, _ctx.AbilityRange, _ctx.AbilityLayerMask))
         {
 
-            if (hit.normal != new Vector3(0, 1 , 0) && hit.collider is BoxCollider) 
+            if (hit.collider is BoxCollider) 
             {
                 float length = hit.transform.localScale.x * ((BoxCollider)hit.collider).size.x;
                 float width = hit.transform.localScale.z * ((BoxCollider)hit.collider).size.z;

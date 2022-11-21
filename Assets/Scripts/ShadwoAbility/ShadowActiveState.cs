@@ -56,11 +56,13 @@ public class ShadowActiveState : ShadowState
 
     public override void UpdateState()
     {
-        if (!_ctx.IsExecuting)
+        CheckSwitchStates();
+
+        if (!_ctx.IsExecuting && _ctx.ShadowInstance != null)
         {
             _ctx.PlayerReourceManager.ApplyManaLose(20f * Time.deltaTime);
             _ctx.ShadowInstance.transform.rotation = Quaternion.Euler(0f, _maincam.transform.rotation.eulerAngles.y, 0f);
         }
-        CheckSwitchStates();
+        
     }
 }
