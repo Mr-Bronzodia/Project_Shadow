@@ -233,7 +233,8 @@ namespace StarterAssets
         {
 			_controller.height = _input.crouch ? 0.8f : 1.65f;
 			_controller.center = _input.crouch ? new Vector3(0, 0.49f, 0) : new Vector3(0, 0.815f, 0);
-			_sneakMultiplier = _input.crouch ? 0.15f : 0f;
+			_controller.center = _input.crouch ? new Vector3(0, 0.49f, 0) : new Vector3(0, 0.815f, 0);
+			_sneakMultiplier = _input.crouch ? 0.2f : 0f;
             _animator.SetBool(_CroucHash, _input.crouch);
 
         }

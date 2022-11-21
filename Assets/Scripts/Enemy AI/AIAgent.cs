@@ -301,15 +301,15 @@ public class AIAgent : MonoBehaviour
         EvaluateTarget();
         _currentAIState.UpdateStates();
 
-        DebugView.text = "";
+        //DebugView.text = "";
 
-        DebugView.text += gameObject.name + " state: " + _currentAIState + "\n";
-        foreach (AwareTarget target in _awareForTargets)
-        {
-            DebugView.text += target.Target.name + ": " + " Vision: " + target.vision + " Vision Level: " + target.LevelFromVision + " Heraing: " + target.hearing + " Hearing Level: " + target.LevelFromHearing + "\n";
-            DebugView.text += "Current Target: " + _currentTarget.Target.name;
+        //DebugView.text += gameObject.name + " state: " + _currentAIState + "\n";
+        //foreach (AwareTarget target in _awareForTargets)
+        //{
+        //    DebugView.text += target.Target.name + ": " + " Vision: " + target.vision + " Vision Level: " + target.LevelFromVision + " Heraing: " + target.hearing + " Hearing Level: " + target.LevelFromHearing + "\n";
+        //    DebugView.text += "Current Target: " + _currentTarget.Target.name;
 
-        }
+        //}
     }
 
 }

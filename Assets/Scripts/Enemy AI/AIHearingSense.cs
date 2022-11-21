@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,10 +53,19 @@ public class AIHearingSense : AISense
                         velocityMagnitude = character.velocity.magnitude;
                     }
 
+                    FirstPersonController playerCharacter;
+                    float snekaMultiplier = 0;
+
+                    if (target.TryGetComponent(out playerCharacter)) 
+                    {
+                        Debug.Log("Reduced");
+                        snekaMultiplier = playerCharacter.SneakMultiplier;
+                    }
+
 
                     if (velocityMagnitude > 2.5)
                     {
-                        float intensity = (velocityMagnitude / 10) * (1 - (dstToSource / _hearRadius));
+                        float intensity = ((velocityMagnitude / 10) * (1 - (dstToSource / _hearRadius))) - snekaMultiplier;
                         _agent.UpdateAwarness(target.gameObject, intensity, this, true);
                     }
                     else 
